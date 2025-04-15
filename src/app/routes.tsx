@@ -1,12 +1,14 @@
-import type { ComponentType, JSX } from 'react';
+import type { ComponentType } from 'react';
 
 import { DashboardPage } from '@/pages/dashboard/';
+import { ProfilePage } from '@/pages/profile/ui';
 
 interface Route {
   path: string;
   Component: ComponentType;
-  title?: string;
-  icon?: JSX.Element;
 }
 
-export const routes: Route[] = [{ path: '/', Component: DashboardPage, title: 'Dashboard' }];
+export const routes: Route[] = [
+  { path: '/', Component: DashboardPage },
+  { path: '/profile', Component: ProfilePage },
+];
