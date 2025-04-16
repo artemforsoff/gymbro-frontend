@@ -45,8 +45,6 @@ export const PageWrapper = ({
     },
   ];
 
-  console.log(tabs);
-
   return (
     <div className={styles['page-wrapper']}>
       {navigation && (
