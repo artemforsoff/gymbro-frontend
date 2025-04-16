@@ -1,13 +1,24 @@
+html,
 body {
-  padding: 0;
+  height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 #root {
-  min-height: 100vh;
   background-color: var(--tg-theme-bg-color);
 }
 
 option {
   background-color: var(--tg-theme-bg-color);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }

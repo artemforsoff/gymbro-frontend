@@ -2,11 +2,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input, Select, Button, Section } from '@telegram-apps/telegram-ui';
-import { userModel } from '@/entities/user/model';
+import { userModel } from '@/entities/user/model/index';
 import styles from './styles.module.scss';
 import { useEffect } from 'react';
 import { useUnit } from 'effector-react';
-import { useNotify } from '@/shared/lib/use-notify';
+import { useNotify } from '@/shared/ui/snackbar/use-notify';
 
 const userParamsSchema = z.object({
   weight: z.number({ invalid_type_error: 'Введите число' }),
@@ -48,6 +48,10 @@ export const UserParametersForm = () => {
   }, [$userParameters]);
 
   const onSubmit = (data: UserParameters) => {
+    if (JSON.stringify(data) === JSON.stringify($userParameters)) {
+      return notify.success('Данные успешно обновлены');
+    }
+
     const { activityLevel, goal, height, sex, weight } = data;
 
     userModel.effects
@@ -59,7 +63,7 @@ export const UserParametersForm = () => {
         sex,
       })
       .then(() => {
-        notify.success('Данные успешно сохранены');
+        notify.success(`Данные успешно ${$userParameters === null ? 'сохранены' : 'обновлены'}`);
       })
       .catch(() => {
         notify.error('Произошла ошибка');
@@ -68,7 +72,7 @@ export const UserParametersForm = () => {
 
   return (
     <Section header="Цели и параметры">
-      <form onSubmit={handleSubmit(onSubmit)} className={styles['user-parameters-form']}>
+      <form className={styles['user-parameters-form']} onSubmit={handleSubmit(onSubmit)}>
         <Select
           value={watch('sex')}
           onChange={(e) => setValue('sex', e.target.value as UserParameters['sex'])}

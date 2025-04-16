@@ -1,8 +1,8 @@
-import { $notification, hideNotification } from '@/entities/notification';
+import { $notification, hideNotification } from './model';
 import { Snackbar } from '@telegram-apps/telegram-ui';
 import { useUnit } from 'effector-react';
 
-export const SnackbarHost = () => {
+export const SnackbarProvider = () => {
   const notification = useUnit($notification);
 
   if (!notification) return null;

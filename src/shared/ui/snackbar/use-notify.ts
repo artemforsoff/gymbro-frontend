@@ -1,5 +1,4 @@
-import { showNotification } from '@/entities/notification';
-import type { NotificationType } from '@/entities/notification';
+import { showNotification, type NotificationType } from './model';
 
 export const useNotify = () => {
   const notify = (text: string, type: NotificationType = 'info') => {

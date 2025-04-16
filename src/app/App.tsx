@@ -4,10 +4,13 @@ import { retrieveLaunchParams, useSignal, isMiniAppDark } from '@telegram-apps/s
 import { AppRoot } from '@telegram-apps/telegram-ui';
 
 import { routes } from '@/app/routes';
-import { userModel } from '@/entities/user/model';
+import { userModel } from '@/entities/user/model/index';
 import { createGate, useGate } from 'effector-react';
 import { sample } from 'effector';
-import { SnackbarHost } from '@/shared/ui/snackbar-host';
+import { SnackbarProvider } from '@/shared/ui/snackbar';
+import { Header } from './layout/header';
+import { PageWrapper } from './layout/page-wrapper';
+import { ModalProvider } from '@/shared/ui/modal/ui';
 
 const AppGate = createGate();
 
@@ -24,17 +27,34 @@ export function App() {
 
   return (
     <AppRoot
+      className="app"
       appearance={isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.tgWebAppPlatform) ? 'ios' : 'base'}
     >
       <HashRouter>
-        <SnackbarHost />
-        <Routes>
-          {routes.map((route) => (
-            <Route key={route.path} {...route} />
-          ))}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <SnackbarProvider />
+
+        <ModalProvider />
+
+        <Header routes={routes} />
+
+        <main>
+          <Routes>
+            {Object.values(routes).map(({ Component, path, back, navigation }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <PageWrapper back={back} navigation={navigation} routes={routes}>
+                    <Component routes={routes} />
+                  </PageWrapper>
+                }
+              />
+            ))}
+
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </main>
       </HashRouter>
     </AppRoot>
   );

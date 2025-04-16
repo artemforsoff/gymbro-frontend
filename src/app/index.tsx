@@ -1,18 +1,19 @@
-// Include Telegram UI styles first to allow our code override the package CSS.
+// include Telegram UI styles first to allow our code override the package CSS.
 import '@telegram-apps/telegram-ui/dist/styles.css';
 
 import ReactDOM from 'react-dom/client';
 import { StrictMode } from 'react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
 
-import { Root } from '@/app/Root.tsx';
-import { EnvUnsupported } from '@/app/EnvUnsupported.tsx';
+import { EnvUnsupported } from '@/app/env-unsupported.tsx';
 import { init } from '@/init.ts';
 
-import './index.css';
+import './app.scss';
+import { ErrorBoundary } from './error-boundary.tsx';
+import { App } from './app.tsx';
 
-// Mock the environment in case, we are outside Telegram.
-import '../mockEnv.ts';
+// mock the environment in case, we are outside Telegram.
+// import '../mockEnv.ts';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
@@ -21,7 +22,7 @@ try {
   const { tgWebAppPlatform: platform } = launchParams;
   const debug = (launchParams.tgWebAppStartParam || '').includes('debug') || import.meta.env.DEV;
 
-  // Configure all application dependencies.
+  // configure all application dependencies.
   await init({
     debug,
     eruda: debug && ['ios', 'android', 'tdesktop'].includes(platform),
@@ -29,7 +30,9 @@ try {
   }).then(() => {
     root.render(
       <StrictMode>
-        <Root />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </StrictMode>,
     );
   });

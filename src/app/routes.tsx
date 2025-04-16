@@ -1,14 +1,10 @@
-import type { ComponentType } from 'react';
+import { type Routes } from '@/pages/types';
+import * as pages from '@/pages';
 
-import { DashboardPage } from '@/pages/dashboard/';
-import { ProfilePage } from '@/pages/profile/ui';
+export const routes: Routes = {
+  dashboard: { path: '/', Component: pages.DashboardPage, navigation: true },
+  nutrition: { path: '/nutrition', Component: pages.NutritionPage, navigation: true },
+  workout: { path: '/workout', Component: pages.WorkoutPage, navigation: true },
 
-interface Route {
-  path: string;
-  Component: ComponentType;
-}
-
-export const routes: Route[] = [
-  { path: '/', Component: DashboardPage },
-  { path: '/profile', Component: ProfilePage },
-];
+  profile: { path: '/profile', Component: pages.ProfilePage, back: true },
+};
