@@ -3,14 +3,13 @@ import { Navigate, Route, Routes, HashRouter } from 'react-router-dom';
 import { retrieveLaunchParams, useSignal, isMiniAppDark } from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 
-import { routes } from '@/app/routes';
+import { routes } from '@/pages/routes';
 import { userModel } from '@/entities/user/model/index';
 import { createGate, useGate } from 'effector-react';
 import { sample } from 'effector';
-import { SnackbarProvider } from '@/shared/ui/snackbar';
+import { SnackbarProvider, ModalProvider } from '@/shared/ui';
 import { Header } from './layout/header';
 import { PageWrapper } from './layout/page-wrapper';
-import { ModalProvider } from '@/shared/ui/modal/ui';
 
 const AppGate = createGate();
 

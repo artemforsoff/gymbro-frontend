@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Cell, Divider, Text } from '@telegram-apps/telegram-ui';
 import { type Routes } from '@/pages/types';
-import { ContactRound } from 'lucide-react';
+import { Beef as BeefIcon, ContactRound as ContactRoundIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Menu: FC<{ routes: Routes; onClose: () => void }> = ({ routes, onClose }) => {
@@ -11,7 +11,12 @@ export const Menu: FC<{ routes: Routes; onClose: () => void }> = ({ routes, onCl
     {
       text: 'Профиль',
       path: routes.profile.path,
-      Icon: ContactRound,
+      Icon: ContactRoundIcon,
+    },
+    {
+      text: 'Мои продукты',
+      path: routes.products.path,
+      Icon: BeefIcon,
     },
   ];
 
@@ -24,7 +29,14 @@ export const Menu: FC<{ routes: Routes; onClose: () => void }> = ({ routes, onCl
     <nav>
       {menuItems.map(({ text, Icon, path }, index, { length }) => (
         <>
-          <Cell before={<Icon />} onClick={() => handleClick(path)}>
+          <Cell
+            before={
+              <div style={{ color: 'var(--tgui--link_color)' }}>
+                <Icon />
+              </div>
+            }
+            onClick={() => handleClick(path)}
+          >
             <Text weight="2">{text}</Text>
           </Cell>
 

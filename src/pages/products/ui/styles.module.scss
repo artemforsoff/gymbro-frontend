@@ -1,0 +1,10 @@
+.products-page {
+  flex: 1;
+  position: relative;
+
+  .add-button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+  }
+}

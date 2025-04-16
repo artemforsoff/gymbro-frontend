@@ -1,14 +1,7 @@
 import { api } from '@/shared/lib/api';
-import { Nullable } from '@/shared/types/utility-types';
+import { type Nullable } from '@/shared/types/utility-types';
 import { createEffect, createStore } from 'effector';
-
-export type UserParameters = {
-  activityLevel: 'low' | 'medium' | 'high';
-  goal: 'lose' | 'maintain' | 'gain';
-  height: number;
-  sex: 'male' | 'female';
-  weight: string;
-};
+import { UserParameters } from './types';
 
 export const $userParameters = createStore<Nullable<UserParameters>>(null);
 

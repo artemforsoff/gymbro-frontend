@@ -7,19 +7,22 @@ import styles from './styles.module.scss';
 import { useEffect } from 'react';
 import { useUnit } from 'effector-react';
 import { useNotify } from '@/shared/ui/snackbar/use-notify';
+import { toZodEnum } from '@/shared/lib/to-zod-enum';
+import { activityLevelOptions, genderOptions, goalOptions } from '../shared/options';
+import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-parameter';
 
 const userParamsSchema = z.object({
   weight: z.number({ invalid_type_error: 'Введите число' }),
   height: z.number({ invalid_type_error: 'Введите число' }),
-  activityLevel: z.enum(['low', 'medium', 'high']),
-  goal: z.enum(['lose', 'maintain', 'gain']),
-  sex: z.enum(['male', 'female']),
+  activityLevel: toZodEnum(Object.values(activityLevelOptions).map(({ value }) => value)),
+  goal: toZodEnum(Object.values(goalOptions).map(({ value }) => value)),
+  sex: toZodEnum(Object.values(genderOptions).map(({ value }) => value)),
 });
 
 type UserParameters = z.infer<typeof userParamsSchema>;
 
 export const UserParametersForm = () => {
-  const $userParameters = useUnit(userModel.stores.$userParameters);
+  const userParameters = useUnit(userModel.stores.$userParameters);
 
   const notify = useNotify();
 
@@ -32,23 +35,29 @@ export const UserParametersForm = () => {
     reset,
   } = useForm<UserParameters>({
     resolver: zodResolver(userParamsSchema),
-    defaultValues: {},
+    defaultValues: {
+      sex: GENDERS.male,
+      activityLevel: ACTIVITY_LEVELS.medium,
+      goal: GOALS.maintain,
+    },
   });
 
   useEffect(() => {
-    if ($userParameters) {
+    if (userParameters) {
+      const { activityLevel, goal, height, sex, weight } = userParameters;
+
       reset({
-        activityLevel: $userParameters.activityLevel,
-        goal: $userParameters.goal,
-        height: $userParameters.height,
-        sex: $userParameters.sex,
-        weight: Number($userParameters.weight),
+        activityLevel,
+        goal,
+        height,
+        sex,
+        weight: Number(weight),
       });
     }
-  }, [$userParameters]);
+  }, [userParameters]);
 
   const onSubmit = (data: UserParameters) => {
-    if (JSON.stringify(data) === JSON.stringify($userParameters)) {
+    if (JSON.stringify(data) === JSON.stringify(userParameters)) {
       return notify.success('Данные успешно обновлены');
     }
 
@@ -63,7 +72,7 @@ export const UserParametersForm = () => {
         sex,
       })
       .then(() => {
-        notify.success(`Данные успешно ${$userParameters === null ? 'сохранены' : 'обновлены'}`);
+        notify.success(`Данные успешно ${userParameters === null ? 'сохранены' : 'обновлены'}`);
       })
       .catch(() => {
         notify.error('Произошла ошибка');
@@ -74,15 +83,12 @@ export const UserParametersForm = () => {
     <Section header="Цели и параметры">
       <form className={styles['user-parameters-form']} onSubmit={handleSubmit(onSubmit)}>
         <Select
+          header="Гендер"
           value={watch('sex')}
           onChange={(e) => setValue('sex', e.target.value as UserParameters['sex'])}
           status={errors.sex ? 'error' : undefined}
         >
-          <option value="">Гендер</option>
-          {[
-            { label: 'Мужской', value: 'male' },
-            { label: 'Женский', value: 'female' },
-          ].map(({ label, value }) => (
+          {Object.values(genderOptions).map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>
@@ -90,30 +96,26 @@ export const UserParametersForm = () => {
         </Select>
 
         <Input
-          placeholder="Вес (кг)"
+          header="Вес (кг)"
           type="number"
           status={errors.weight ? 'error' : undefined}
           {...register('weight', { valueAsNumber: true })}
         />
 
         <Input
-          placeholder="Рост (см)"
+          header="Рост (см)"
           type="number"
           status={errors.height ? 'error' : undefined}
           {...register('height', { valueAsNumber: true })}
         />
 
         <Select
+          header="Цель"
           value={watch('goal')}
           onChange={(e) => setValue('goal', e.target.value as UserParameters['goal'])}
           status={errors.goal ? 'error' : undefined}
         >
-          <option value="">Цель</option>
-          {[
-            { label: 'Похудение', value: 'lose' },
-            { label: 'Набор массы', value: 'gain' },
-            { label: 'Поддержание', value: 'maintain' },
-          ].map(({ label, value }) => (
+          {Object.values(goalOptions).map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>
@@ -121,18 +123,14 @@ export const UserParametersForm = () => {
         </Select>
 
         <Select
+          header="Уровень активности"
           value={watch('activityLevel')}
           onChange={(e) =>
             setValue('activityLevel', e.target.value as UserParameters['activityLevel'])
           }
           status={errors.activityLevel ? 'error' : undefined}
         >
-          <option value="">Уровень активности</option>
-          {[
-            { label: 'Низкий', value: 'low' },
-            { label: 'Средний', value: 'medium' },
-            { label: 'Высокий', value: 'high' },
-          ].map(({ label, value }) => (
+          {Object.values(activityLevelOptions).map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>

@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { hideBackButton, onBackButtonClick, showBackButton } from '@telegram-apps/sdk-react';
 import { type PropsWithChildren, ReactNode, useEffect } from 'react';
 import { Tabbar } from '@telegram-apps/telegram-ui';
-import styles from './styles.module.scss';
 import { PageProps, Route } from '@/pages/types';
 import { Dumbbell, LayoutDashboard, Utensils } from 'lucide-react';
 
@@ -46,7 +45,7 @@ export const PageWrapper = ({
   ];
 
   return (
-    <div className={styles['page-wrapper']}>
+    <>
       {navigation && (
         <Tabbar>
           {tabs.map(({ text, Icon, link }, index) => (
@@ -63,6 +62,6 @@ export const PageWrapper = ({
       )}
 
       {children}
-    </div>
+    </>
   );
 };

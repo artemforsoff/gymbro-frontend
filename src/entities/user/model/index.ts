@@ -1,18 +1,8 @@
+import { createEffect, createStore, sample } from 'effector';
 import { api } from '@/shared/lib/api';
 import { type Nullable } from '@/shared/types/utility-types';
-import { createEffect, createStore, sample } from 'effector';
+import { type User } from './types';
 import { $userParameters, getUserParametersFx, setUserParametersFx } from './user-parametrs';
-
-export type User = {
-  avatarUrl: Nullable<string>;
-  birthDate: Nullable<string>;
-  createdAt: string;
-  firstName: string;
-  id: number;
-  languageCode: string;
-  lastName: string;
-  tgId: string;
-};
 
 const $user = createStore<Nullable<User>>(null);
 

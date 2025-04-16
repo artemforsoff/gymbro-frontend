@@ -1,6 +1,6 @@
 import { ComponentType } from 'react';
 
-type RouteKey = 'dashboard' | 'profile' | 'workout' | 'nutrition';
+type RouteKey = 'dashboard' | 'profile' | 'workout' | 'nutrition' | 'products';
 
 export type Route = {
   path: string;

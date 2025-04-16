@@ -7,4 +7,5 @@ export const routes: Routes = {
   workout: { path: '/workout', Component: pages.WorkoutPage, navigation: true },
 
   profile: { path: '/profile', Component: pages.ProfilePage, back: true },
+  products: { path: '/products', Component: pages.ProductsPage, back: true },
 };

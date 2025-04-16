@@ -1,17 +1,29 @@
 import { useUnit } from 'effector-react';
-import { $modal, closeModal } from './model';
-import { Headline, IconButton, Modal } from '@telegram-apps/telegram-ui';
+import { $modal, closeModal } from '../model';
+import { IconButton, Modal, type ModalProps, Subheadline } from '@telegram-apps/telegram-ui';
 import { FC } from 'react';
 import { X } from 'lucide-react';
+import styles from './styles.module.scss';
 
 export const ModalProvider: FC = () => {
   const { content, title } = useUnit($modal);
 
+  const handleChange: ModalProps['onOpenChange'] = (open) => {
+    if (!open) {
+      closeModal();
+    }
+  };
+
   return (
     <Modal
+      className={styles.modal}
       header={
         <Modal.Header
-          before={<Headline weight="3">{title}</Headline>}
+          before={
+            <Subheadline size={3} weight="3">
+              {title}
+            </Subheadline>
+          }
           after={
             <Modal.Close>
               <IconButton mode="plain" size="s">
@@ -22,12 +34,7 @@ export const ModalProvider: FC = () => {
         />
       }
       open={Boolean(content)}
-      onOpenChange={(open) => {
-        if (!open) {
-          closeModal();
-        }
-      }}
-      style={{ height: `calc(100vh - 100px)` }}
+      onOpenChange={handleChange}
     >
       {content}
     </Modal>
