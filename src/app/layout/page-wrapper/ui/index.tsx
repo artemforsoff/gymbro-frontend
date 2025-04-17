@@ -5,7 +5,7 @@ import { Tabbar } from '@telegram-apps/telegram-ui';
 import { PageProps, Route } from '@/pages/types';
 import { Dumbbell, LayoutDashboard, Utensils } from 'lucide-react';
 
-export type PageWrapperProps = PropsWithChildren<PageProps & Pick<Route, 'back' | 'navigation'>>;
+type PageWrapperProps = PropsWithChildren<PageProps & Pick<Route, 'back' | 'navigation'>>;
 
 export const PageWrapper = ({
   children,
@@ -20,7 +20,7 @@ export const PageWrapper = ({
     if (back) {
       showBackButton();
       return onBackButtonClick(() => {
-        navigate(-1);
+        navigate(routes.dashboard.path);
       });
     }
     hideBackButton();

@@ -4,24 +4,20 @@ import type { Product } from './types';
 import { $productCategories, getProductCategoriesFx } from './categories';
 import { api } from '@/shared/lib/api';
 
-export const $products = createStore<Nullable<Product[]>>(null);
+const $products = createStore<Nullable<Product[]>>(null);
 
-export const getProductsFx = createEffect(() => {
+const getProductsFx = createEffect(() => {
   return api.get('product/user/me').json<Product[]>();
 });
 
 $products.on(getProductsFx.doneData, (_, products) => products);
 
-export const createProductFx = createEffect((product: Omit<Product, 'id'>) => {
-  return api
-    .post('product', {
-      json: product,
-    })
-    .json<Product>();
+const deleteProductFx = createEffect((id: Product['id']) => {
+  return api.delete(`product/${id}`).json();
 });
 
 sample({
-  clock: createProductFx.done,
+  clock: deleteProductFx.doneData,
   target: getProductsFx,
 });
 
@@ -33,6 +29,6 @@ export const productModel = {
   effects: {
     getProductCategoriesFx,
     getProductsFx,
-    createProductFx,
+    deleteProductFx,
   },
 };

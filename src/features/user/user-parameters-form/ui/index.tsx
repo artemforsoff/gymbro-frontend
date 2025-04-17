@@ -10,6 +10,7 @@ import { useNotify } from '@/shared/ui/snackbar/use-notify';
 import { toZodEnum } from '@/shared/lib/to-zod-enum';
 import { activityLevelOptions, genderOptions, goalOptions } from '../shared/options';
 import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-parameter';
+import { setUserParametersFx } from '../model';
 
 const userParamsSchema = z.object({
   weight: z.number({ invalid_type_error: 'Введите число' }),
@@ -63,14 +64,13 @@ export const UserParametersForm = () => {
 
     const { activityLevel, goal, height, sex, weight } = data;
 
-    userModel.effects
-      .setUserParametersFx({
-        weight: String(weight),
-        height,
-        activityLevel,
-        goal,
-        sex,
-      })
+    setUserParametersFx({
+      weight: String(weight),
+      height,
+      activityLevel,
+      goal,
+      sex,
+    })
       .then(() => {
         notify.success(`Данные успешно ${userParameters === null ? 'сохранены' : 'обновлены'}`);
       })

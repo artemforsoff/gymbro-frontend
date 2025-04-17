@@ -1,0 +1,9 @@
+.product-card {
+  border: var(--tgui--border--width) solid var(--tgui--outline);
+  border-radius: 12px;
+  isolation: initial;
+
+  .name {
+    color: var(--tg-theme-link-color);
+  }
+}

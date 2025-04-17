@@ -24,3 +24,8 @@ main {
   display: flex;
   flex-direction: column;
 }
+
+ul[class] {
+  margin: 0;
+  padding: 0;
+}

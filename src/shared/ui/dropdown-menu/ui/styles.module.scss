@@ -1,0 +1,22 @@
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--tg-theme-bg-color);
+  overflow: hidden;
+  border-radius: 8px;
+  border: var(--tgui--border--width) solid var(--tgui--outline);
+  z-index: 1;
+  min-width: 100px;
+
+  &__item {
+    border-radius: 0;
+
+    &:hover {
+      background-color: var(--tgui--tertiary_bg_color);
+    }
+
+    &:not(:last-child) {
+      border-bottom: var(--tgui--border--width) solid var(--tgui--outline);
+    }
+  }
+}

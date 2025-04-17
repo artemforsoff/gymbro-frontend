@@ -31,7 +31,7 @@ export const Menu: FC<{ routes: Routes; onClose: () => void }> = ({ routes, onCl
         <>
           <Cell
             before={
-              <div style={{ color: 'var(--tgui--link_color)' }}>
+              <div style={{ color: 'var(--tg-theme-link-color)' }}>
                 <Icon />
               </div>
             }

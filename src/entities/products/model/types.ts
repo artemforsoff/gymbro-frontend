@@ -9,11 +9,11 @@ export type Product = {
   id: number;
   name: string;
   categoryId: ProductCategory['id'];
-  kcal: number;
-  protein: number;
-  fat: number;
-  carbs: number;
-  fiber: number;
+  kcal: string;
+  protein: string;
+  fat: string;
+  carbs: string;
+  fiber: string;
   unit: string;
   proteinType: ProteinType;
   externalId?: string;

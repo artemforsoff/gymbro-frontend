@@ -1,4 +1,4 @@
-import { productModel } from '@/entities/products/model';
+import { productModel } from '@/entities/products';
 import { sample } from 'effector';
 import { createGate } from 'effector-react';
 

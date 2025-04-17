@@ -2,7 +2,7 @@ import { createEffect, createStore, sample } from 'effector';
 import { api } from '@/shared/lib/api';
 import { type Nullable } from '@/shared/types/utility-types';
 import { type User } from './types';
-import { $userParameters, getUserParametersFx, setUserParametersFx } from './user-parametrs';
+import { $userParameters, getUserParametersFx } from './user-parametrs';
 
 const $user = createStore<Nullable<User>>(null);
 
@@ -46,7 +46,6 @@ sample({
 export const userModel = {
   effects: {
     getMeFx,
-    setUserParametersFx,
   },
   stores: {
     $user,

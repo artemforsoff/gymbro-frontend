@@ -5,14 +5,6 @@ import { UserParameters } from './types';
 
 export const $userParameters = createStore<Nullable<UserParameters>>(null);
 
-export const setUserParametersFx = createEffect((parameters: UserParameters) => {
-  return api
-    .post('user/parameters', {
-      json: parameters,
-    })
-    .json<UserParameters>();
-});
-
 export const getUserParametersFx = createEffect(() => {
   return api.get('user/parameters').json<UserParameters>();
 });
