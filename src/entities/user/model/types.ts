@@ -1,4 +1,4 @@
-import type { ActivityLevel, Gender, Goal } from '@/shared/constants';
+import { ActivityLevel, Gender, Goal } from '@/shared/constants/user-parameter';
 import type { Nullable } from '@/shared/types/utility-types';
 
 export type User = {
