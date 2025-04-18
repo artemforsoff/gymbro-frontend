@@ -1,8 +1,7 @@
-import { getAge } from '@/shared/lib/get-age';
+import { combine } from 'effector';
+import { getAge, calcDailyNutrition } from '@/shared/lib';
 import { $user } from './user';
 import { $userParameters } from './user-parameters';
-import { combine } from 'effector';
-import { calcDailyNutrition } from '@/shared/lib/calc-daily-nutrition';
 
 const $age = $user.map((user) => (user?.birthDate ? getAge(user.birthDate) : null));
 

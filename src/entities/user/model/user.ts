@@ -1,7 +1,7 @@
-import { Nullable } from '@/shared/types/utility-types';
-import { createEffect, createStore, sample } from 'effector';
-import { User } from './types';
-import { api } from '@/shared/lib/api';
+import { createEffect, createStore } from 'effector';
+import { api } from '@/shared/lib';
+import { type User } from './types';
+import { type Nullable } from '@/shared/types/utility-types';
 
 export const $user = createStore<Nullable<User>>(null);
 
@@ -11,28 +11,14 @@ export const getMeFx = createEffect(() => {
 
 $user.on(getMeFx.doneData, (_, user) => user);
 
-const signInViaTelegramFx = createEffect(() => {
-  const initData = window.Telegram?.WebApp?.initData;
+export const updateProfileFx = createEffect(
+  (user: Pick<User, 'birthDate' | 'firstName' | 'lastName' | 'languageCode'>) => {
+    return api
+      .put('user/me', {
+        json: user,
+      })
+      .json<User>();
+  },
+);
 
-  if (!initData) {
-    throw new Error('initData not available');
-  }
-
-  return api
-    .post('api/auth/tg', {
-      json: {
-        initData,
-      },
-    })
-    .json();
-});
-
-sample({
-  clock: signInViaTelegramFx.done,
-  target: getMeFx,
-});
-
-sample({
-  clock: getMeFx.fail,
-  target: signInViaTelegramFx,
-});
+$user.on(updateProfileFx.doneData, (_, user) => user);

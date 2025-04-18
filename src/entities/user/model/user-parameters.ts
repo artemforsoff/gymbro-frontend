@@ -1,8 +1,8 @@
-import { api } from '@/shared/lib/api';
-import { type Nullable } from '@/shared/types/utility-types';
 import { createEffect, createStore, sample } from 'effector';
+import { api } from '@/shared/lib';
 import { UserParameters } from './types';
 import { getMeFx } from './user';
+import { type Nullable } from '@/shared/types/utility-types';
 
 export const $userParameters = createStore<Nullable<UserParameters>>(null);
 

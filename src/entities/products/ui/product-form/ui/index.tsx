@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input, Select, Button } from '@telegram-apps/telegram-ui';
-import { toZodEnum } from '@/shared/lib/to-zod-enum';
+import { toZodEnum } from '@/shared/lib';
 import { PROTEIN_TYPES } from '@/shared/constants/product';
 import { $productCategoryOptions, proteinTypeOptions } from '../shared/options';
 import styles from './styles.module.scss';

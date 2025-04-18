@@ -30,8 +30,6 @@ export function App() {
       appearance={isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.tgWebAppPlatform) ? 'ios' : 'base'}
     >
-      <div id="portal" />
-
       <HashRouter>
         <SnackbarProvider />
 

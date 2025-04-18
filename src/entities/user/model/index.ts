@@ -1,3 +1,4 @@
+import './auth';
 import { $userParameters, getUserParametersFx } from './user-parameters';
 import { $user, getMeFx } from './user';
 import { $dailyNutrition } from './daily-nutrition';

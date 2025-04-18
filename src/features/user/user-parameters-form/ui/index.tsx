@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { useEffect } from 'react';
 import { useUnit } from 'effector-react';
 import { useNotify } from '@/shared/ui/snackbar/use-notify';
-import { toZodEnum } from '@/shared/lib/to-zod-enum';
+import { toZodEnum } from '@/shared/lib';
 import { activityLevelOptions, genderOptions, goalOptions } from '../shared/options';
 import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-parameter';
 import { setUserParametersFx } from '../model';
