@@ -1,4 +1,4 @@
-import { productModel } from '@/entities/products';
+import { productModel } from '@/entities/products/model';
 import { PROTEIN_TYPES, type ProteinType } from '@/shared/constants/product';
 
 export const proteinTypeOptions: Record<ProteinType, { value: ProteinType; label: string }> = {

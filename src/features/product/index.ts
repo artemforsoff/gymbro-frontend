@@ -1,2 +1,2 @@
-export { ProductForm } from './product-form';
-export { ProductList } from './product-list';
+export { CreateProductForm } from './create-product-form';
+export { UpdateProductForm } from './update-product-form';

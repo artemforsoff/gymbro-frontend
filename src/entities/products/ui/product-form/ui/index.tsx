@@ -1,17 +1,14 @@
-import { type Product } from '@/entities/products/model/types';
 import { useEffect, type FC } from 'react';
-
+import { useUnit } from 'effector-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input, Select, Button } from '@telegram-apps/telegram-ui';
-import { useNotify } from '@/shared/ui/snackbar/use-notify';
 import { toZodEnum } from '@/shared/lib/to-zod-enum';
-import styles from './styles.module.scss';
 import { PROTEIN_TYPES } from '@/shared/constants/product';
-import { useUnit } from 'effector-react';
 import { $productCategoryOptions, proteinTypeOptions } from '../shared/options';
-import { createProductFx, updateProductFx } from '../model';
+import styles from './styles.module.scss';
+import { Product } from '@/entities/products/model/types';
 
 const MAX_DECIMALS = 2;
 const toTwoDecimals = (val: number) => Number(val.toFixed(MAX_DECIMALS));
@@ -37,21 +34,17 @@ const productSchema = z.object({
 
 type ProductFormData = z.infer<typeof productSchema>;
 
-type CreateProductFormBaseProps<T> = T & {
-  onSuccess: () => void;
+type ProductFormProps = {
+  initialValues?: Omit<Product, 'id'>;
+  onSubmit: (data: Omit<Product, 'id'>) => void;
+  submitButtonText: string;
 };
 
-type CreateProductFormProps = CreateProductFormBaseProps<{ mode: 'create' }>;
-
-type CreateUpdateFormProps = CreateProductFormBaseProps<{ mode: 'update'; entity: Product }>;
-
-type ProductFormProps = CreateProductFormProps | CreateUpdateFormProps;
-
-export const ProductForm: FC<ProductFormProps> = (props) => {
-  const { mode, onSuccess } = props;
-
-  const notify = useNotify();
-
+export const ProductForm: FC<ProductFormProps> = ({
+  onSubmit,
+  initialValues,
+  submitButtonText,
+}) => {
   const categoryOptions = useUnit($productCategoryOptions);
 
   const {
@@ -63,60 +56,37 @@ export const ProductForm: FC<ProductFormProps> = (props) => {
     reset,
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: {},
   });
 
   useEffect(() => {
-    if (mode === 'update') {
-      const { entity } = props;
+    if (!initialValues) return;
 
-      reset({
-        ...entity,
-        carbs: Number(entity.carbs),
-        fat: Number(entity.fat),
-        fiber: Number(entity.fiber),
-        kcal: Number(entity.kcal),
-        protein: Number(entity.protein),
-      });
-    }
-  }, [props]);
+    const { carbs, fat, fiber, kcal, protein } = initialValues;
 
-  const onSubmit = async (data: ProductFormData) => {
-    try {
-      const { mode } = props;
+    reset({
+      ...initialValues,
+      carbs: +carbs,
+      fat: +fat,
+      fiber: +fiber,
+      kcal: +kcal,
+      protein: +protein,
+    });
+  }, [initialValues, reset]);
 
-      const payload: Parameters<typeof createProductFx>[0] = {
-        ...data,
-        carbs: String(data.carbs),
-        fat: String(data.fat),
-        fiber: String(data.fiber),
-        kcal: String(data.kcal),
-        protein: String(data.protein),
-        unit: '100g',
-      };
-
-      if (mode === 'create') {
-        await createProductFx(payload);
-        notify.success('Продукт создан');
-        onSuccess();
-      } else if (mode === 'update') {
-        const { entity } = props;
-
-        await updateProductFx({
-          ...payload,
-          id: entity.id,
-          unit: entity.unit,
-        });
-        notify.success('Продукт обновлен');
-        onSuccess();
-      }
-    } catch {
-      notify.error('Произошла ошибка');
-    }
+  const submit = (data: ProductFormData) => {
+    onSubmit({
+      ...data,
+      carbs: String(data.carbs),
+      fat: String(data.fat),
+      fiber: String(data.fiber),
+      kcal: String(data.kcal),
+      protein: String(data.protein),
+      unit: '100g',
+    });
   };
 
   return (
-    <form className={styles['product-form']} onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles['product-form']} onSubmit={handleSubmit(submit)}>
       <div className={styles['control--full-width']}>
         <Input
           className={styles.input}
@@ -212,7 +182,7 @@ export const ProductForm: FC<ProductFormProps> = (props) => {
       </Select>
 
       <div className={styles['submit-button']}>
-        <Button type="submit">{mode === 'update' ? 'Обновить' : 'Создать'}</Button>
+        <Button type="submit">{submitButtonText}</Button>
       </div>
     </form>
   );
