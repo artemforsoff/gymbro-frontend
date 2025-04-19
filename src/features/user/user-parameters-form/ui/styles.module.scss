@@ -1,9 +1,11 @@
 .user-parameters-form {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  padding: 16px;
 
   button[type='submit'] {
-    margin-block: 16px 20px;
-    margin-inline: auto 16px;
+    margin-block: 22px;
+    margin-inline: auto 22px;
   }
 }

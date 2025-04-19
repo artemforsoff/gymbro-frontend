@@ -1,7 +1,8 @@
 import { type FC } from 'react';
-import { Cell, Divider, Text } from '@telegram-apps/telegram-ui';
 import { type Routes } from '@/pages/types';
 import { Beef as BeefIcon, ContactRound as ContactRoundIcon } from 'lucide-react';
+import { Button } from '@/shared/ui/kit';
+import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 export const Menu: FC<{ routes: Routes; onClose: () => void }> = ({ routes, onClose }) => {
@@ -14,34 +15,24 @@ export const Menu: FC<{ routes: Routes; onClose: () => void }> = ({ routes, onCl
       Icon: ContactRoundIcon,
     },
     {
-      text: 'Мои продукты',
+      text: 'Продукты',
       path: routes.products.path,
       Icon: BeefIcon,
     },
   ];
 
   const handleClick = (path: string) => {
-    onClose();
     navigate(path);
+    onClose();
   };
 
   return (
-    <nav>
-      {menuItems.map(({ text, Icon, path }, index, { length }) => (
-        <>
-          <Cell
-            before={
-              <div style={{ color: 'var(--tg-theme-link-color)' }}>
-                <Icon />
-              </div>
-            }
-            onClick={() => handleClick(path)}
-          >
-            <Text weight="2">{text}</Text>
-          </Cell>
-
-          {index < length - 1 && <Divider />}
-        </>
+    <nav className={styles.menu}>
+      {menuItems.map(({ text, Icon, path }) => (
+        <Button mode="plain" className={styles['menu-item']} onClick={() => handleClick(path)}>
+          <Icon />
+          <span>{text}</span>
+        </Button>
       ))}
     </nav>
   );

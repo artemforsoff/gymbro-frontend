@@ -1,0 +1,30 @@
+.tabs {
+  display: flex;
+  overflow: hidden;
+  border-block-end: 1px solid rgba(var(--gb-hint-color--rgb), 0.5);
+  padding-inline: 16px;
+}
+
+.tab {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px 8px 0 0;
+}
+
+.selected {
+  &::after {
+    --height: 6px;
+
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: calc(var(--height) / 2 * -1);
+    height: var(--height);
+    width: 100%;
+    background-color: var(--gb-accent-color);
+    border-radius: calc(var(--height) / 2);
+    transition: all 0.3s ease;
+  }
+}

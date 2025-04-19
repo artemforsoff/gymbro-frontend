@@ -1,9 +1,9 @@
 import styles from './styles.module.scss';
 import { useFloating, offset, flip, shift, autoUpdate, type Placement } from '@floating-ui/react';
-import { Button, type ButtonProps } from '@telegram-apps/telegram-ui';
 import clsx from 'clsx';
-import { type PropsWithChildren, type ReactNode, useEffect, useState } from 'react';
+import { ComponentProps, type PropsWithChildren, type ReactNode, useEffect, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
+import { Button } from '../../button';
 
 type DropdownMenuProps = PropsWithChildren<{
   trigger: ReactNode;
@@ -50,14 +50,19 @@ export const DropdownMenu = ({ children, trigger, placement = 'bottom' }: Dropdo
   );
 };
 
-DropdownMenu.Item = ({ children, className, onClick: propsOnClick, ...props }: ButtonProps) => (
+DropdownMenu.Item = ({
+  children,
+  className,
+  onClick: propsOnClick,
+  ...props
+}: ComponentProps<typeof Button>) => (
   <Button
-    className={clsx(styles['dropdown-menu__item'], className)}
+    {...props}
+    className={clsx(styles['dropdown-menu-item'], className)}
     mode="plain"
     onClick={(e) => {
       propsOnClick?.(e);
     }}
-    {...props}
   >
     {children}
   </Button>

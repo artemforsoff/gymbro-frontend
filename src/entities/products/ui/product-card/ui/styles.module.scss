@@ -1,9 +1,45 @@
 .product-card {
-  border: var(--tgui--border--width) solid var(--tgui--outline);
-  border-radius: 12px;
-  isolation: initial;
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background-color: var(--gb-bg-color, #fff);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+
+  .info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 
   .name {
-    color: var(--tg-theme-link-color);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--gb-accent-color);
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--gb-hint-color);
+  }
+
+  .description {
+    font-size: 13px;
+    color: var(--gb-hint-color);
+
+    strong {
+      color: var(--gb-accent-color);
+    }
+  }
+
+  .menu {
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 }

@@ -1,0 +1,22 @@
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+
+  &__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--gb-accent-color);
+    margin: 0;
+  }
+
+  &__description {
+    font-size: 14px;
+    color: var(--gb-text-color);
+    max-width: 50%;
+    text-align: center;
+  }
+}

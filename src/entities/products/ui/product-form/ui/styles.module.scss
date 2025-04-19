@@ -1,7 +1,8 @@
 .product-form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 8px;
+  padding: 8px 16px;
+  gap: 8px 12px;
 
   .control--full-width {
     grid-column: 1 / 3;
@@ -16,8 +17,8 @@
   }
 
   .submit-button {
-    padding: 8px;
     grid-column: 2 / 3;
+    padding-block-start: 12px;
 
     button {
       width: 100%;

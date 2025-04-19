@@ -1,5 +1,4 @@
 import { $notification, hideNotification } from './model';
-import { Snackbar } from '@telegram-apps/telegram-ui';
 import { useUnit } from 'effector-react';
 
 export const SnackbarProvider = () => {
@@ -25,15 +24,14 @@ export const SnackbarProvider = () => {
     }
   };
 
-  return (
-    <Snackbar
-      onClose={hideNotification}
-      duration={3000}
-      style={{
-        color: getTextColor(),
-      }}
-    >
-      {getIcon()} {notification.text}
-    </Snackbar>
-  );
+  return null;
+  // <Snackbar
+  //   onClose={hideNotification}
+  //   duration={3000}
+  //   style={{
+  //     color: getTextColor(),
+  //   }}
+  // >
+  //   {getIcon()} {notification.text}
+  // </Snackbar>
 };

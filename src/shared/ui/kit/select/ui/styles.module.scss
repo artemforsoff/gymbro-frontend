@@ -1,0 +1,39 @@
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.select-label {
+  color: var(--gb-hint-color);
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.select {
+  border: 2px solid rgba(var(--gb-hint-color--rgb), 0.5);
+  padding: 8px 16px;
+  border-radius: var(--gb-border-radius);
+  background-color: var(--gb-bg-color);
+  color: var(--gb-text-color);
+  outline: none;
+  font-size: 16px;
+  line-height: 20px;
+  appearance: none;
+
+  &:focus {
+    border-color: var(--gb-accent-color);
+  }
+
+  &--error {
+    border-color: var(--gb-danger-text-color);
+    color: var(--gb-danger-text-color);
+  }
+}
+
+.select-error {
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 500;
+  color: var(--gb-danger-text-color);
+}

@@ -3,6 +3,7 @@ import { ProductForm } from '@/entities/products';
 import { type Product } from '@/entities/products/model/types';
 import { useNotify } from '@/shared/ui/snackbar';
 import { updateProductFx } from './model';
+import { useUnit } from 'effector-react';
 
 type UpdateProductFormProps = {
   onSuccess: () => void;
@@ -11,6 +12,7 @@ type UpdateProductFormProps = {
 
 export const UpdateProductForm: FC<UpdateProductFormProps> = ({ onSuccess, product }) => {
   const { success, error } = useNotify();
+  const isLoading = useUnit(updateProductFx.pending);
 
   const updateProduct: ComponentProps<typeof ProductForm>['onSubmit'] = (data) => {
     updateProductFx({
@@ -27,6 +29,11 @@ export const UpdateProductForm: FC<UpdateProductFormProps> = ({ onSuccess, produ
   };
 
   return (
-    <ProductForm onSubmit={updateProduct} submitButtonText="Обновить" initialValues={product} />
+    <ProductForm
+      onSubmit={updateProduct}
+      submitButtonText="Обновить"
+      initialValues={product}
+      isLoading={isLoading}
+    />
   );
 };

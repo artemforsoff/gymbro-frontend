@@ -10,15 +10,3 @@ export const getMeFx = createEffect(() => {
 });
 
 $user.on(getMeFx.doneData, (_, user) => user);
-
-export const updateProfileFx = createEffect(
-  (user: Pick<User, 'birthDate' | 'firstName' | 'lastName' | 'languageCode'>) => {
-    return api
-      .put('user/me', {
-        json: user,
-      })
-      .json<User>();
-  },
-);
-
-$user.on(updateProfileFx.doneData, (_, user) => user);

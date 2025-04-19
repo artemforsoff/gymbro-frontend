@@ -1,8 +1,8 @@
-import { openLink } from '@telegram-apps/sdk-react';
 import { type FC, type MouseEventHandler, useCallback } from 'react';
 import { Link as RouterLink, type LinkProps } from 'react-router-dom';
-import styles from './styles.module.scss';
+import { openLink } from '@telegram-apps/sdk-react';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 export const Link: FC<LinkProps> = ({ className, onClick: propsOnClick, to, ...rest }) => {
   const onClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(

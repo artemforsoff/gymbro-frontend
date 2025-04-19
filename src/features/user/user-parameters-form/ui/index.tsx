@@ -1,16 +1,16 @@
+import { type FC, useEffect } from 'react';
+import { useUnit } from 'effector-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input, Select, Button, Section } from '@telegram-apps/telegram-ui';
 import { userModel } from '@/entities/user/model/index';
-import styles from './styles.module.scss';
-import { useEffect } from 'react';
-import { useUnit } from 'effector-react';
 import { useNotify } from '@/shared/ui/snackbar/use-notify';
 import { toZodEnum } from '@/shared/lib';
 import { activityLevelOptions, genderOptions, goalOptions } from '../shared/options';
 import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-parameter';
 import { setUserParametersFx } from '../model';
+import styles from './styles.module.scss';
+import { Button, Input, Select } from '@/shared/ui/kit';
 
 const userParamsSchema = z.object({
   weight: z.number({ invalid_type_error: 'Введите число' }),
@@ -22,8 +22,9 @@ const userParamsSchema = z.object({
 
 type UserParameters = z.infer<typeof userParamsSchema>;
 
-export const UserParametersForm = () => {
+export const UserParametersForm: FC = () => {
   const userParameters = useUnit(userModel.stores.$userParameters);
+  const isLoading = useUnit(userModel.effects.getUserParametersFx.pending);
 
   const notify = useNotify();
 
@@ -80,65 +81,65 @@ export const UserParametersForm = () => {
   };
 
   return (
-    <Section header="Цели и параметры">
-      <form className={styles['user-parameters-form']} onSubmit={handleSubmit(onSubmit)}>
-        <Select
-          header="Гендер"
-          value={watch('sex')}
-          onChange={(e) => setValue('sex', e.target.value as UserParameters['sex'])}
-          status={errors.sex ? 'error' : undefined}
-        >
-          {Object.values(genderOptions).map(({ label, value }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </Select>
+    <form className={styles['user-parameters-form']} onSubmit={handleSubmit(onSubmit)}>
+      <Select
+        label="Гендер"
+        value={watch('sex')}
+        onChange={(e) => setValue('sex', e.target.value as UserParameters['sex'])}
+        error={errors.sex?.message}
+      >
+        {Object.values(genderOptions).map(({ label, value }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </Select>
 
-        <Input
-          header="Вес (кг)"
-          type="number"
-          status={errors.weight ? 'error' : undefined}
-          {...register('weight', { valueAsNumber: true })}
-        />
+      <Input
+        label="Вес (кг)"
+        type="number"
+        error={errors.weight?.message}
+        {...register('weight', { valueAsNumber: true })}
+      />
 
-        <Input
-          header="Рост (см)"
-          type="number"
-          status={errors.height ? 'error' : undefined}
-          {...register('height', { valueAsNumber: true })}
-        />
+      <Input
+        label="Рост (см)"
+        type="number"
+        error={errors.height?.message}
+        {...register('height', { valueAsNumber: true })}
+      />
 
-        <Select
-          header="Цель"
-          value={watch('goal')}
-          onChange={(e) => setValue('goal', e.target.value as UserParameters['goal'])}
-          status={errors.goal ? 'error' : undefined}
-        >
-          {Object.values(goalOptions).map(({ label, value }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </Select>
+      <Select
+        label="Цель"
+        value={watch('goal')}
+        onChange={(e) => setValue('goal', e.target.value as UserParameters['goal'])}
+        error={errors.goal?.message}
+      >
+        {Object.values(goalOptions).map(({ label, value }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </Select>
 
-        <Select
-          header="Уровень активности"
-          value={watch('activityLevel')}
-          onChange={(e) =>
-            setValue('activityLevel', e.target.value as UserParameters['activityLevel'])
-          }
-          status={errors.activityLevel ? 'error' : undefined}
-        >
-          {Object.values(activityLevelOptions).map(({ label, value }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </Select>
+      <Select
+        label="Уровень активности"
+        value={watch('activityLevel')}
+        onChange={(e) =>
+          setValue('activityLevel', e.target.value as UserParameters['activityLevel'])
+        }
+        error={errors.activityLevel?.message}
+      >
+        {Object.values(activityLevelOptions).map(({ label, value }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </Select>
 
-        <Button type="submit">Сохранить</Button>
-      </form>
-    </Section>
+      <Button type="submit" loading={isLoading}>
+        Сохранить
+      </Button>
+    </form>
   );
 };

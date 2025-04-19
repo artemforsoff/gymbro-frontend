@@ -1,0 +1,80 @@
+@import '@/shared/styles/theme.scss';
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: scale(0);
+  animation: ripple-animation 600ms linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.button {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid;
+  padding: 8px 16px;
+  border-radius: var(--gb-border-radius);
+  font-size: 16px;
+  line-height: 20px;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 700;
+  justify-content: center;
+
+  &--with-icon {
+    padding-inline-end: 8px;
+  }
+
+  &[data-mode='accent'] {
+    background-color: var(--gb-accent-color);
+    border-color: var(--gb-accent-color);
+    color: #fff;
+
+    &:hover,
+    &:active {
+      background-color: var(--gb-accent-color--dark);
+      border-color: var(--gb-accent-color--dark);
+    }
+  }
+
+  &[data-mode='plain'] {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--gb-accent-color);
+
+    &:hover,
+    &:active {
+      background-color: rgba(var(--gb-accent-color--rgb), 0.2);
+      border-color: transparent;
+    }
+  }
+
+  .button-icon {
+    display: flex;
+
+    &[data-loading='true'] {
+      transform-origin: center;
+      animation: spin 1s infinite linear;
+    }
+  }
+}

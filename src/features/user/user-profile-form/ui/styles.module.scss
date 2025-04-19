@@ -1,0 +1,16 @@
+.user-profile-form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+
+  button[type='submit'] {
+    margin-block: 22px;
+    margin-inline: auto 22px;
+  }
+}

@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { hideBackButton, onBackButtonClick, showBackButton } from '@telegram-apps/sdk-react';
 import { type PropsWithChildren, ReactNode, useEffect } from 'react';
-import { Tabbar } from '@telegram-apps/telegram-ui';
 import { PageProps, Route } from '@/pages/types';
 import { Dumbbell, LayoutDashboard, Utensils } from 'lucide-react';
+import styles from './styles.module.scss';
+import { Link } from '@/shared/ui/kit';
 
 type PageWrapperProps = PropsWithChildren<PageProps & Pick<Route, 'back' | 'navigation'>>;
 
@@ -46,22 +47,27 @@ export const PageWrapper = ({
 
   return (
     <>
-      {navigation && (
-        <Tabbar>
-          {tabs.map(({ text, Icon, link }, index) => (
-            <Tabbar.Item
-              key={index}
-              text={text}
-              selected={pathname === link}
-              onClick={() => navigate(link)}
-            >
-              {Icon}
-            </Tabbar.Item>
-          ))}
-        </Tabbar>
-      )}
+      {navigation ? (
+        <>
+          <div className={styles['page-inner']}>{children}</div>
 
-      {children}
+          <nav className={styles.nav}>
+            {tabs.map(({ text, Icon, link }, index) => (
+              <Link
+                className={styles['nav-link']}
+                data-selected={pathname === link}
+                key={index}
+                to={link}
+              >
+                <div className={styles['nav-link__icon']}>{Icon}</div>
+                <span className={styles['nav-link__text']}>{text}</span>
+              </Link>
+            ))}
+          </nav>
+        </>
+      ) : (
+        children
+      )}
     </>
   );
 };

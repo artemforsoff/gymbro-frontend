@@ -1,41 +1,30 @@
-import { useUnit } from 'effector-react';
-import { $modal, closeModal } from '../model';
-import { IconButton, Modal, type ModalProps, Subheadline } from '@telegram-apps/telegram-ui';
 import { FC } from 'react';
+import { useUnit } from 'effector-react';
+import Modal from 'react-modal';
 import { X } from 'lucide-react';
-import styles from './styles.module.scss';
+import { $modal, closeModal } from '../model';
+import { IconButton } from '@/shared/ui/kit';
+import './styles.scss';
 
 export const ModalProvider: FC = () => {
   const { content, title } = useUnit($modal);
 
-  const handleChange: ModalProps['onOpenChange'] = (open) => {
-    if (!open) {
-      closeModal();
-    }
-  };
-
   return (
     <Modal
-      className={styles.modal}
-      header={
-        <Modal.Header
-          before={
-            <Subheadline size={3} weight="3">
-              {title}
-            </Subheadline>
-          }
-          after={
-            <Modal.Close>
-              <IconButton mode="plain" size="s">
-                <X />
-              </IconButton>
-            </Modal.Close>
-          }
-        />
-      }
-      open={Boolean(content)}
-      onOpenChange={handleChange}
+      isOpen={Boolean(content)}
+      onRequestClose={() => closeModal()}
+      className="gb-modal"
+      overlayClassName="gb-modal__overlay"
+      closeTimeoutMS={300}
+      shouldCloseOnOverlayClick={false}
     >
+      <header className="gb-modal__header">
+        <h6 className="gb-modal__title">{title}</h6>
+
+        <IconButton onClick={() => closeModal()}>
+          <X />
+        </IconButton>
+      </header>
       {content}
     </Modal>
   );

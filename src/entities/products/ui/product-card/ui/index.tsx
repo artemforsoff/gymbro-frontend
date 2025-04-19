@@ -1,9 +1,8 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss';
 import { type Product } from '@/entities/products/model/types';
-import { Cell, IconButton } from '@telegram-apps/telegram-ui';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
-import { DropdownMenu } from '@/shared/ui';
+import { Button, DropdownMenu, IconButton } from '@/shared/ui/kit';
 import clsx from 'clsx';
 
 type ProductCardProps = {
@@ -14,51 +13,47 @@ type ProductCardProps = {
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete, className }) => {
-  const { name, kcal, carbs, protein, fat, id } = product;
+  const { name, kcal, carbs, protein, fat, id, fiber } = product;
   const isShowDropdown = Boolean(onChange || onDelete);
 
   return (
-    <Cell
-      className={clsx(styles['product-card'], className)}
-      after={
-        isShowDropdown && (
+    <div className={clsx(styles['product-card'], className)}>
+      <div className={styles.info}>
+        <div className={styles.name}>{name}</div>
+        <div className={styles.subtitle}>
+          100 г · <strong>{kcal}</strong> ккал
+        </div>
+        <div className={styles.description}>
+          БЖУ: <strong>{protein}</strong> / <strong>{fat}</strong> / <strong>{carbs}</strong>
+          <br />
+          Клетчатка: <strong>{fiber}</strong>
+        </div>
+      </div>
+
+      {isShowDropdown && (
+        <div className={styles.menu}>
           <DropdownMenu
             placement="bottom-end"
             trigger={
-              <IconButton mode="plain">
+              <IconButton className="plain-button">
                 <EllipsisIcon />
               </IconButton>
             }
           >
             {onChange && (
-              <DropdownMenu.Item onClick={() => onChange?.(product)}>
-                Редактировать
-              </DropdownMenu.Item>
+              <DropdownMenu.Item onClick={() => onChange(product)}>Редактировать</DropdownMenu.Item>
             )}
             {onDelete && (
               <DropdownMenu.Item
-                onClick={() => onDelete?.(id)}
+                onClick={() => onDelete(id)}
                 style={{ color: 'var(--tg-theme-destructive-text-color)' }}
               >
                 Удалить
               </DropdownMenu.Item>
             )}
           </DropdownMenu>
-        )
-      }
-      description={
-        <>
-          Б - <strong>{protein}</strong> г; Ж - <strong>{fat}</strong> г; У:{' '}
-          <strong>{carbs}</strong> г
-        </>
-      }
-      subtitle={
-        <>
-          100 г · <strong>{kcal}</strong> ккал
-        </>
-      }
-    >
-      <strong className={styles.name}>{name}</strong>
-    </Cell>
+        </div>
+      )}
+    </div>
   );
 };

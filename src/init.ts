@@ -30,7 +30,8 @@ export async function init(options: {
   options.eruda &&
     void import('eruda').then(({ default: eruda }) => {
       eruda.init();
-      eruda.position({ x: window.innerWidth - 50, y: 0 });
+      eruda.show();
+      eruda.position({ x: 25, y: 25 });
     });
 
   // Telegram for macOS has a ton of bugs, including cases, when the client doesn't

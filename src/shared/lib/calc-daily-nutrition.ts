@@ -19,6 +19,22 @@ const goalAdjustment: Record<Goal, number> = {
   [GOALS.gain]: 300,
 };
 
+// Constants for BMR calculation (Mifflin–St Jeor)
+const BMR_WEIGHT_COEFF = 10;
+const BMR_HEIGHT_COEFF = 6.25;
+const BMR_AGE_COEFF = 5;
+const BMR_MALE_ADJUSTMENT = 5;
+const BMR_FEMALE_ADJUSTMENT = -161;
+
+// Macronutrient calorie values
+const KCAL_PER_GRAM_PROTEIN = 4;
+const KCAL_PER_GRAM_CARBS = 4;
+const KCAL_PER_GRAM_FAT = 9;
+
+// Macronutrient per kg weight
+const PROTEIN_PER_KG = 2;
+const FAT_PER_KG = 1;
+
 /**
  *
  * @description based at Mifflin–St Jeor
@@ -34,32 +50,31 @@ export const calcDailyNutrition = (params: {
   const { activityLevel, goal, height, sex, weight, age } = params;
 
   // 1. BMR (Basal Metabolic Rate)
-  let BMR = 10 * weight + 6.25 * height - 5 * age;
+  let BMR = BMR_WEIGHT_COEFF * weight + BMR_HEIGHT_COEFF * height - BMR_AGE_COEFF * age;
 
-  if (sex === GENDERS.male) BMR += 5;
-  if (sex === GENDERS.female) BMR -= 161;
+  BMR += sex === GENDERS.male ? BMR_MALE_ADJUSTMENT : BMR_FEMALE_ADJUSTMENT;
 
-  // 2. activity
+  // 2. Apply activity factor
   const activityFactor = activityFactorMap[activityLevel];
   let calories = BMR * activityFactor;
 
-  // 3. goal
+  // 3. Adjust for goal
   calories += goalAdjustment[goal];
 
-  // 4. calculate carbs, fat, protein based on calories
-  const protein = weight * 2; // 2 g on 1kg of weight
-  const proteinKcal = protein * 4;
+  // 4. macronutrient breakdown
+  const protein = weight * PROTEIN_PER_KG;
+  const proteinKcal = protein * KCAL_PER_GRAM_PROTEIN;
 
-  const fat = weight * 1; // 1 g on 1kg of weight
-  const fatKcal = fat * 9;
+  const fats = weight * FAT_PER_KG;
+  const fatKcal = fats * KCAL_PER_GRAM_FAT;
 
   const remainingKcal = calories - (proteinKcal + fatKcal);
-  const carbs = remainingKcal / 4;
+  const carbs = remainingKcal / KCAL_PER_GRAM_CARBS;
 
   return {
     calories: Math.round(calories),
     protein: Math.round(protein),
-    fat: Math.round(fat),
+    fats: Math.round(fats),
     carbs: Math.round(carbs),
   };
 };

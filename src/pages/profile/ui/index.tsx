@@ -1,42 +1,34 @@
-import { UserParametersForm } from '@/features/user';
+import { type ComponentType, type FC, useState } from 'react';
 import { type PageProps } from '@/pages/types';
-import { Divider, TabsList } from '@telegram-apps/telegram-ui';
-import { ReactNode, useState, type FC } from 'react';
+import { UserParametersForm, UserProfileForm } from '@/features/user';
+import { TabsList } from '@/shared/ui/kit';
 
 export const ProfilePage: FC<PageProps> = () => {
-  const defaultTab = 'parameters';
-  const tabs: { [key: string]: { content: ReactNode; text: string } } = {
-    [defaultTab]: {
-      content: <UserParametersForm />,
+  const DEFAULT_TAB = 'parameters';
+  const tabs: { [key: string]: { content: ComponentType; text: string } } = {
+    [DEFAULT_TAB]: {
+      content: UserParametersForm,
       text: 'Параметры',
     },
     profile: {
-      content: <div>in the development</div>,
+      content: UserProfileForm,
       text: 'Профиль',
     },
   };
 
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [activeTab, setActiveTab] = useState(DEFAULT_TAB);
+
+  const ActiveTab = tabs[activeTab].content;
 
   return (
     <>
-      <TabsList>
-        {Object.entries(tabs).map(([key, { text }]) => (
-          <TabsList.Item
-            key={key}
-            onClick={() => {
-              setActiveTab(key);
-            }}
-            selected={activeTab === key}
-          >
-            {text}
-          </TabsList.Item>
-        ))}
-      </TabsList>
+      <TabsList
+        onSelect={setActiveTab}
+        items={Object.entries(tabs).map(([key, { text }]) => ({ key, text }))}
+        selectedKey={activeTab}
+      />
 
-      <Divider />
-
-      {tabs[activeTab].content}
+      <ActiveTab />
     </>
   );
 };

@@ -1,0 +1,5 @@
+@mixin theme($theme-name) {
+  body[data-theme='gb-#{$theme-name}'] & {
+    @content;
+  }
+}
