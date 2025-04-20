@@ -23,7 +23,7 @@ export const ProductsPage: FC<PageProps> = () => {
     });
   };
 
-  const deleteProduct: ComponentProps<typeof ProductList>['onDeleteProduct'] = (id) => {
+  const deleteProduct: ComponentProps<typeof ProductList>['onDeleteProduct'] = ({ id }) => {
     productModel.effects.deleteProductFx(id);
   };
 

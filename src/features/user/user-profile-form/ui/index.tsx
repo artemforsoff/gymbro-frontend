@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userModel } from '@/entities/user/model';
-import { useNotify } from '@/shared/ui/snackbar';
 import { updateProfileFx } from '../model';
 import styles from './styles.module.scss';
 import { DateTime } from 'luxon';
@@ -27,7 +26,6 @@ const updateProfileSchema = z.object({
 type ProfileFormData = z.infer<typeof updateProfileSchema>;
 
 export const UserProfileForm: FC = () => {
-  const notify = useNotify();
   const user = useUnit(userModel.stores.$user);
   const isLoading = useUnit(updateProfileFx.pending);
 
@@ -58,8 +56,8 @@ export const UserProfileForm: FC = () => {
       birthDate: birthDateISO,
       lastName: data.lastName || user?.lastName || '',
     })
-      .then(() => notify.success('Профиль обновлён'))
-      .catch(() => notify.error('Ошибка при обновлении профиля'));
+      .then(() => {})
+      .catch(() => {});
   };
 
   return (

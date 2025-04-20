@@ -1,7 +1,6 @@
 import { type ComponentProps, type FC } from 'react';
 import { ProductForm } from '@/entities/product';
 import { type Product } from '@/entities/product/model/types';
-import { useNotify } from '@/shared/ui/snackbar';
 import { updateProductFx } from './model';
 import { useUnit } from 'effector-react';
 
@@ -11,7 +10,6 @@ type UpdateProductFormProps = {
 };
 
 export const UpdateProductForm: FC<UpdateProductFormProps> = ({ onSuccess, product }) => {
-  const { success, error } = useNotify();
   const isLoading = useUnit(updateProductFx.pending);
 
   const updateProduct: ComponentProps<typeof ProductForm>['onSubmit'] = (data) => {
@@ -21,11 +19,8 @@ export const UpdateProductForm: FC<UpdateProductFormProps> = ({ onSuccess, produ
     })
       .then(() => {
         onSuccess();
-        success('Продукт успешно обновлен');
       })
-      .catch(() => {
-        error('Ой, произошла ошибка');
-      });
+      .catch(() => {});
   };
 
   return (

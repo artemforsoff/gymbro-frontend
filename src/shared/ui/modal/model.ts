@@ -2,7 +2,7 @@ import { createEvent, createStore } from 'effector';
 import { type ReactNode } from 'react';
 import { type Nullable } from '@/shared/types/utility-types';
 
-type ModalStore = { content: Nullable<ReactNode>; title: string };
+type ModalStore = { content: Nullable<ReactNode>; title: string; onClose?: () => void };
 
 export const openModal = createEvent<ModalStore>();
 export const closeModal = createEvent();

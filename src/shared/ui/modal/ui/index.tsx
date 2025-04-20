@@ -7,12 +7,17 @@ import { IconButton } from '@/shared/ui/kit';
 import './styles.scss';
 
 export const ModalProvider: FC = () => {
-  const { content, title } = useUnit($modal);
+  const { content, title, onCancel } = useUnit($modal);
+
+  const requestClose = () => {
+    if (onCancel) onCancel();
+    closeModal();
+  };
 
   return (
     <Modal
       isOpen={Boolean(content)}
-      onRequestClose={() => closeModal()}
+      onRequestClose={requestClose}
       className="gb-modal"
       overlayClassName="gb-modal__overlay"
       closeTimeoutMS={300}
@@ -21,7 +26,7 @@ export const ModalProvider: FC = () => {
       <header className="gb-modal__header">
         <h6 className="gb-modal__title">{title}</h6>
 
-        <IconButton onClick={() => closeModal()}>
+        <IconButton onClick={requestClose}>
           <X />
         </IconButton>
       </header>

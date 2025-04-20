@@ -1,0 +1,17 @@
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+
+  &__description {
+    color: var(--gb-text-color);
+    font-size: 16px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: end;
+  }
+}

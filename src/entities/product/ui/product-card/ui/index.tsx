@@ -4,10 +4,11 @@ import { type Product } from '@/entities/product/model/types';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
 import { Button, DropdownMenu, IconButton } from '@/shared/ui/kit';
 import clsx from 'clsx';
+import { useConfirm } from '@/shared/ui/confirm';
 
 type ProductCardProps = {
   product: Product;
-  onDelete?: (productId: Product['id']) => void;
+  onDelete?: (productId: Product) => void;
   onChange?: (product: Product) => void;
   className?: string;
 };
@@ -15,6 +16,15 @@ type ProductCardProps = {
 export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete, className }) => {
   const { name, kcal, carbs, protein, fat, id, fiber } = product;
   const isShowDropdown = Boolean(onChange || onDelete);
+
+  const { confirm } = useConfirm();
+
+  const handleDelete = () => {
+    confirm({
+      description: 'Вы уверены, что хотите удалить продукт?',
+      onConfirm: () => onDelete?.(product),
+    });
+  };
 
   return (
     <div className={clsx(styles['product-card'], className)}>
@@ -45,7 +55,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete,
             )}
             {onDelete && (
               <DropdownMenu.Item
-                onClick={() => onDelete(id)}
+                onClick={handleDelete}
                 style={{ color: 'var(--tg-theme-destructive-text-color)' }}
               >
                 Удалить

@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userModel } from '@/entities/user/model/index';
-import { useNotify } from '@/shared/ui/snackbar/use-notify';
 import { toZodEnum } from '@/shared/lib';
 import { activityLevelOptions, genderOptions, goalOptions } from '../shared/options';
 import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-parameter';
@@ -25,8 +24,6 @@ type UserParameters = z.infer<typeof userParamsSchema>;
 export const UserParametersForm: FC = () => {
   const userParameters = useUnit(userModel.stores.$userParameters);
   const isLoading = useUnit(userModel.effects.getUserParametersFx.pending);
-
-  const notify = useNotify();
 
   const {
     register,
@@ -60,7 +57,8 @@ export const UserParametersForm: FC = () => {
 
   const onSubmit = (data: UserParameters) => {
     if (JSON.stringify(data) === JSON.stringify(userParameters)) {
-      return notify.success('Данные успешно обновлены');
+      // return notify.success('Данные успешно обновлены');
+      return;
     }
 
     const { activityLevel, goal, height, sex, weight } = data;
@@ -73,10 +71,10 @@ export const UserParametersForm: FC = () => {
       sex,
     })
       .then(() => {
-        notify.success(`Данные успешно ${userParameters === null ? 'сохранены' : 'обновлены'}`);
+        // notify.success(`Данные успешно ${userParameters === null ? 'сохранены' : 'обновлены'}`);
       })
       .catch(() => {
-        notify.error('Произошла ошибка');
+        // notify.error('Произошла ошибка');
       });
   };
 
