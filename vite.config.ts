@@ -40,9 +40,10 @@ export default defineConfig({
     // Exposes your dev server and makes it accessible for the devices in the same network.
     host: true,
     allowedHosts: ['.ngrok-free.app'],
+    port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
+        target: 'http://192.168.0.103:4000',
         changeOrigin: true,
         secure: false,
       },

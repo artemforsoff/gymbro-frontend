@@ -1,6 +1,6 @@
 import { createEffect, sample } from 'effector';
-import { productModel } from '@/entities/products';
-import { Product } from '@/entities/products/model/types';
+import { productModel } from '@/entities/product';
+import { Product } from '@/entities/product/model/types';
 import { api } from '@/shared/lib';
 
 export const updateProductFx = createEffect(({ id, ...product }: Product) => {

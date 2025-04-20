@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss';
-import { type Product } from '@/entities/products/model/types';
+import { type Product } from '@/entities/product/model/types';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
 import { Button, DropdownMenu, IconButton } from '@/shared/ui/kit';
 import clsx from 'clsx';
@@ -24,9 +24,9 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete,
           100 г · <strong>{kcal}</strong> ккал
         </div>
         <div className={styles.description}>
-          БЖУ: <strong>{protein}</strong> / <strong>{fat}</strong> / <strong>{carbs}</strong>
+          БЖУ: <strong>{protein}</strong> г / <strong>{fat}</strong> г / <strong>{carbs}</strong> г
           <br />
-          Клетчатка: <strong>{fiber}</strong>
+          Клетчатка: <strong>{fiber}</strong> г
         </div>
       </div>
 

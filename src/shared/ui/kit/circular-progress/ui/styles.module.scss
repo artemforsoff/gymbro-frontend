@@ -1,0 +1,13 @@
+.circular-progress {
+  transform: rotate(-90deg);
+}
+
+.bg {
+  transition: stroke 0.3s ease;
+}
+
+.fg {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(0deg);
+  transform-origin: center;
+}

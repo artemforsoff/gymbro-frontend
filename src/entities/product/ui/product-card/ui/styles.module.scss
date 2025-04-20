@@ -27,6 +27,10 @@
   .subtitle {
     font-size: 13px;
     color: var(--gb-hint-color);
+
+    strong {
+      color: var(--gb-accent-color);
+    }
   }
 
   .description {

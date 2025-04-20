@@ -13,7 +13,7 @@
     "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "ngrok": "ngrok http 5174"
+    "ngrok": "ngrok http 3000"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.7",

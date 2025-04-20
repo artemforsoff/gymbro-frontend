@@ -5,7 +5,7 @@ import { CirclePlus as CirclePlusIcon } from 'lucide-react';
 import { useModal } from '@/shared/ui/modal/use-modal';
 import { useGate, useUnit } from 'effector-react';
 import { ProductsPageGate } from '../model';
-import { ProductList, productModel } from '@/entities/products';
+import { ProductList, productModel } from '@/entities/product';
 import { CreateProductForm, UpdateProductForm } from '@/features/product';
 import { IconButton } from '@/shared/ui/kit';
 

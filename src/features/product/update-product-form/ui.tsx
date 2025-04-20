@@ -1,6 +1,6 @@
 import { type ComponentProps, type FC } from 'react';
-import { ProductForm } from '@/entities/products';
-import { type Product } from '@/entities/products/model/types';
+import { ProductForm } from '@/entities/product';
+import { type Product } from '@/entities/product/model/types';
 import { useNotify } from '@/shared/ui/snackbar';
 import { updateProductFx } from './model';
 import { useUnit } from 'effector-react';

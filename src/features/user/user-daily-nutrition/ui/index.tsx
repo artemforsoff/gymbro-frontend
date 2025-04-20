@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { useUnit } from 'effector-react';
 import { userModel } from '@/entities/user/model';
 import styles from './styles.module.scss';
+import { Nutrition } from './nutrition';
 
 const currentNutrition = {
   calories: 1600,
@@ -13,15 +14,34 @@ const currentNutrition = {
 export const UserDailyNutrition: FC = () => {
   const { calories, carbs, fats, protein } = useUnit(userModel.stores.$dailyNutrition) ?? {};
 
+  const nutritions: Array<{ label: string; current: number; total: number }> = [
+    {
+      label: 'Калории',
+      total: calories ?? 0,
+      current: currentNutrition.calories,
+    },
+    {
+      label: 'Белки',
+      total: protein ?? 0,
+      current: currentNutrition.protein,
+    },
+    {
+      label: 'Жиры',
+      total: fats ?? 0,
+      current: currentNutrition.fats,
+    },
+    {
+      label: 'Углеводы',
+      total: carbs ?? 0,
+      current: currentNutrition.carbs,
+    },
+  ];
+
   return (
-    <div className={styles['user-daily-nutrition']}>
-      <label>{/* <Caption className={styles['nutrition-caption']}>Калории</Caption> */}</label>
-
-      <label>{/* <Caption className={styles['nutrition-caption']}>Белки</Caption> */}</label>
-
-      <label>{/* <Caption className={styles['nutrition-caption']}>Жиры</Caption> */}</label>
-
-      <label>{/* <Caption className={styles['nutrition-caption']}>Углеводы</Caption> */}</label>
-    </div>
+    <ul className={styles['user-daily-nutrition']}>
+      {nutritions.map(({ label, current, total }) => (
+        <Nutrition current={current} total={total} label={label} />
+      ))}
+    </ul>
   );
 };

@@ -7,7 +7,7 @@ import { toZodEnum } from '@/shared/lib';
 import { PROTEIN_TYPES } from '@/shared/constants/product';
 import { $productCategoryOptions, proteinTypeOptions } from '../shared/options';
 import styles from './styles.module.scss';
-import { Product } from '@/entities/products/model/types';
+import { Product } from '@/entities/product/model/types';
 import { Button, Input, Select } from '@/shared/ui/kit';
 
 const MAX_DECIMALS = 2;

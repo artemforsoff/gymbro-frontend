@@ -1,6 +1,6 @@
 import { type ComponentProps, type FC } from 'react';
-import { ProductCard } from '@/entities/products';
-import { Product } from '@/entities/products/model/types';
+import { ProductCard } from '@/entities/product';
+import { Product } from '@/entities/product/model/types';
 import styles from './styles.module.scss';
 import { Placeholder } from '@/shared/ui/kit';
 

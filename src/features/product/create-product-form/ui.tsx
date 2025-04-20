@@ -1,4 +1,4 @@
-import { ProductForm } from '@/entities/products';
+import { ProductForm } from '@/entities/product';
 import { type ComponentProps, type FC } from 'react';
 import { createProductFx } from './model';
 import { useNotify } from '@/shared/ui/snackbar';

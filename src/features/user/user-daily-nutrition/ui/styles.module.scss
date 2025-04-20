@@ -1,15 +1,37 @@
-.user-daily-nutrition {
+.user-daily-nutrition[class] {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   padding: 16px;
+  gap: 12px;
+}
 
-  label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.nutrition {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: var(--gb-border-radius);
+  gap: 4px 16px;
+  align-items: center;
+  background-color: rgba(var(--gb-hint-color--rgb), 0.1);
+
+  &__progress {
+    grid-row: 1 / 3;
   }
 
-  .nutrition-caption {
-    color: var(--tg-theme-link-color);
+  &__label {
+    font-size: 20px;
+    color: var(--gb-hint-color);
+  }
+
+  &__result {
+    font-size: 18px;
+    color: var(--gb-hint-color);
+
+    strong {
+      font-size: 24px;
+      color: var(--gb-accent-color);
+    }
   }
 }
