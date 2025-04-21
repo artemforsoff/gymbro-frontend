@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import styles from './styles.module.scss';
 import { type Product } from '@/entities/product/model/types';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
-import { Button, DropdownMenu, IconButton } from '@/shared/ui/kit';
+import { DropdownMenu, IconButton } from '@/shared/ui/kit';
 import clsx from 'clsx';
 import { useConfirm } from '@/shared/ui/confirm';
 
@@ -11,10 +11,17 @@ type ProductCardProps = {
   onDelete?: (productId: Product) => void;
   onChange?: (product: Product) => void;
   className?: string;
+  onSelect?: (product: Product) => void;
 };
 
-export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete, className }) => {
-  const { name, kcal, carbs, protein, fat, id, fiber } = product;
+export const ProductCard: FC<ProductCardProps> = ({
+  product,
+  onChange,
+  onDelete,
+  className,
+  onSelect,
+}) => {
+  const { name, kcal, carbs, protein, fat, fiber } = product;
   const isShowDropdown = Boolean(onChange || onDelete);
 
   const { confirm } = useConfirm();
@@ -27,7 +34,12 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete,
   };
 
   return (
-    <div className={clsx(styles['product-card'], className)}>
+    <article
+      className={clsx(styles['product-card'], className, {
+        [styles['product-card--selectable']]: Boolean(onSelect),
+      })}
+      onClick={() => onSelect?.(product)}
+    >
       <div className={styles.info}>
         <div className={styles.name}>{name}</div>
         <div className={styles.subtitle}>
@@ -64,6 +76,6 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onChange, onDelete,
           </DropdownMenu>
         </div>
       )}
-    </div>
+    </article>
   );
 };

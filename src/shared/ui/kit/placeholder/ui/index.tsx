@@ -15,7 +15,7 @@ export const Placeholder: FC<PlaceholderProps> = ({ title, description, buttonTe
 
     <p className={styles.placeholder__description}>{description}</p>
 
-    {buttonText && (
+    {buttonText && onClick && (
       <Button className={styles.placeholder__button} onClick={onClick}>
         {buttonText}
       </Button>

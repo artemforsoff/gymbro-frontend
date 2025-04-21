@@ -8,4 +8,5 @@ export const routes: Routes = {
 
   profile: { path: '/profile', Component: pages.ProfilePage, back: true },
   products: { path: '/products', Component: pages.ProductsPage, back: true },
+  recipes: { path: '/recipes', Component: pages.RecipesPage, back: true },
 };

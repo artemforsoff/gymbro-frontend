@@ -26,8 +26,8 @@
   }
 
   &--error {
-    border-color: var(--gb-danger-text-color);
-    color: var(--gb-danger-text-color);
+    border-color: var(--gb-danger-color);
+    color: var(--gb-danger-color);
   }
 }
 
@@ -35,5 +35,5 @@
   font-size: 12px;
   line-height: 12px;
   font-weight: 500;
-  color: var(--gb-danger-text-color);
+  color: var(--gb-danger-color);
 }

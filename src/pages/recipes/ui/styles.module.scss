@@ -1,0 +1,12 @@
+.recipes-page {
+  flex: 1;
+  position: relative;
+  box-shadow: none;
+
+  .add-button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background-color: rgba(var(--gb-hint-color--rgb), 0.1);
+  }
+}

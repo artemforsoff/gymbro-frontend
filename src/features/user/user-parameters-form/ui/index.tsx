@@ -10,10 +10,12 @@ import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-paramet
 import { setUserParametersFx } from '../model';
 import styles from './styles.module.scss';
 import { Button, Input, Select } from '@/shared/ui/kit';
+import { decimalNumberSchema } from '@/shared/lib/zod';
+import { toDecimals } from '@/shared/lib/to-decimals';
 
 const userParamsSchema = z.object({
-  weight: z.number({ invalid_type_error: 'Введите число' }),
-  height: z.number({ invalid_type_error: 'Введите число' }),
+  weight: decimalNumberSchema(),
+  height: decimalNumberSchema(),
   activityLevel: toZodEnum(Object.values(activityLevelOptions).map(({ value }) => value)),
   goal: toZodEnum(Object.values(goalOptions).map(({ value }) => value)),
   sex: toZodEnum(Object.values(genderOptions).map(({ value }) => value)),
@@ -78,6 +80,13 @@ export const UserParametersForm: FC = () => {
       });
   };
 
+  const parseDecimalInput = (value: string) => {
+    if (typeof value === 'string') {
+      return toDecimals(parseFloat(value.replace(',', '.')), 2);
+    }
+    return toDecimals(value, 2);
+  };
+
   return (
     <form className={styles['user-parameters-form']} onSubmit={handleSubmit(onSubmit)}>
       <Select
@@ -95,9 +104,11 @@ export const UserParametersForm: FC = () => {
 
       <Input
         label="Вес (кг)"
-        type="number"
+        inputMode="decimal"
         error={errors.weight?.message}
-        {...register('weight', { valueAsNumber: true })}
+        {...register('weight', {
+          setValueAs: parseDecimalInput,
+        })}
       />
 
       <Input

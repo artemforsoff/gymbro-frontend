@@ -26,14 +26,14 @@
   }
 
   &--error {
-    border-color: var(--gb-danger-text-color);
-    color: var(--gb-danger-text-color);
+    border-color: var(--gb-danger-color);
+    color: var(--gb-danger-color);
   }
 }
 
 .input-error {
   font-size: 12px;
   line-height: 12px;
-  color: var(--gb-danger-text-color);
+  color: var(--gb-danger-color);
   font-weight: 500;
 }

@@ -1,16 +1,16 @@
 import { useEffect, useMemo } from 'react';
-import { Navigate, Route, Routes, HashRouter } from 'react-router-dom';
-import { isMiniAppDark, retrieveLaunchParams, useSignal } from '@telegram-apps/sdk-react';
-
-import { routes } from '@/pages/routes';
-import { userModel } from '@/entities/user/model/index';
-import { createGate, useGate } from 'effector-react';
 import { sample } from 'effector';
+import { createGate, useGate } from 'effector-react';
+import { Navigate, Route, Routes, HashRouter } from 'react-router-dom';
+import Modal from 'react-modal';
+import { ToastContainer } from 'react-toastify';
+import { isMiniAppDark, retrieveLaunchParams, useSignal } from '@telegram-apps/sdk-react';
+import Color from 'color';
 import { Header } from './layout/header';
 import { PageWrapper } from './layout/page-wrapper';
-import Color from 'color';
+import { routes } from '@/pages/routes';
+import { userModel } from '@/entities/user/model/index';
 import { ModalProvider } from '@/shared/ui';
-import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
@@ -57,15 +57,14 @@ export function App() {
       body.style.setProperty('--gb-hint-color', hintColor);
       body.style.setProperty('--gb-hint-color--rgb', color.rgb().array().join(','));
     }
-    if (destructiveTextColor)
-      body.style.setProperty('--gb-danger-text-color', destructiveTextColor);
+    if (destructiveTextColor) body.style.setProperty('--gb-danger-color', destructiveTextColor);
 
     document.body.dataset.theme = isDark ? 'gb-dark' : 'gb-light';
   }, [lp, isDark]);
 
   return (
     <HashRouter>
-      {/* <SnackbarProvider /> */}
+      <ToastContainer toastClassName="gb-toast" />
 
       <ModalProvider />
 

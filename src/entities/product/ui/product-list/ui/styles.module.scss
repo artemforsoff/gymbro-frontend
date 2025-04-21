@@ -1,6 +1,10 @@
-.product-list[class] {
+.product-list {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.search {
+  margin-block-end: 16px;
 }

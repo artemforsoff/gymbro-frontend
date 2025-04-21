@@ -3,3 +3,4 @@ export { NutritionPage } from './nutrition';
 export { WorkoutPage } from './workout';
 export { ProfilePage } from './profile';
 export { ProductsPage } from './products';
+export { RecipesPage } from './recipes';

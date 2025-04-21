@@ -7,28 +7,19 @@ import { toZodEnum } from '@/shared/lib';
 import { PROTEIN_TYPES } from '@/shared/constants/product';
 import { $productCategoryOptions, proteinTypeOptions } from '../shared/options';
 import styles from './styles.module.scss';
-import { Product } from '@/entities/product/model/types';
+import { Product } from '../../../model/types';
 import { Button, Input, Select } from '@/shared/ui/kit';
-
-const MAX_DECIMALS = 2;
-const toTwoDecimals = (val: number) => Number(val.toFixed(MAX_DECIMALS));
-
-const twoDecimalSchema = z
-  .number({ invalid_type_error: 'Введите число' })
-  .min(0)
-  .max(100)
-  .refine((val) => toTwoDecimals(val) === val, {
-    message: `Максимум ${MAX_DECIMALS} знака после запятой`,
-  });
+import { decimalNumberSchema } from '@/shared/lib/zod';
+import { toDecimals } from '@/shared/lib/to-decimals';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Название обязательно'),
   categoryId: z.number({ invalid_type_error: 'Выберите категорию' }),
-  kcal: twoDecimalSchema,
-  protein: twoDecimalSchema,
-  fat: twoDecimalSchema,
-  carbs: twoDecimalSchema,
-  fiber: twoDecimalSchema,
+  kcal: decimalNumberSchema(),
+  protein: decimalNumberSchema(),
+  fat: decimalNumberSchema(),
+  carbs: decimalNumberSchema(),
+  fiber: decimalNumberSchema(),
   proteinType: toZodEnum(Object.values(PROTEIN_TYPES)),
 });
 
@@ -87,6 +78,13 @@ export const ProductForm: FC<ProductFormProps> = ({
     });
   };
 
+  const parseDecimalInput = (value: string) => {
+    if (typeof value === 'string') {
+      return toDecimals(parseFloat(value.replace(',', '.')), 2);
+    }
+    return toDecimals(value, 2);
+  };
+
   return (
     <form className={styles['product-form']} onSubmit={handleSubmit(submit)}>
       <div className={styles['control--full-width']}>
@@ -116,56 +114,51 @@ export const ProductForm: FC<ProductFormProps> = ({
 
       <Input
         label="К"
-        type="number"
-        step="0.01"
+        type="text"
+        inputMode="decimal"
         error={errors.kcal?.message}
         {...register('kcal', {
-          valueAsNumber: true,
-          setValueAs: toTwoDecimals,
+          setValueAs: parseDecimalInput,
         })}
       />
 
       <Input
         label="Б"
-        type="number"
-        step="0.01"
+        type="text"
+        inputMode="decimal"
         error={errors.protein?.message}
         {...register('protein', {
-          valueAsNumber: true,
-          setValueAs: toTwoDecimals,
+          setValueAs: parseDecimalInput,
         })}
       />
 
       <Input
         label="Ж"
-        type="number"
-        step="0.01"
+        type="text"
+        inputMode="decimal"
         error={errors.fat?.message}
         {...register('fat', {
-          valueAsNumber: true,
-          setValueAs: toTwoDecimals,
+          setValueAs: parseDecimalInput,
         })}
       />
 
       <Input
         label="У"
-        type="number"
-        step="0.01"
+        type="text"
+        inputMode="decimal"
         error={errors.carbs?.message}
         {...register('carbs', {
-          valueAsNumber: true,
-          setValueAs: toTwoDecimals,
+          setValueAs: parseDecimalInput,
         })}
       />
 
       <Input
         label="Клетчатка"
-        type="number"
-        step="0.01"
+        type="text"
+        inputMode="decimal"
         error={errors.fiber?.message}
         {...register('fiber', {
-          valueAsNumber: true,
-          setValueAs: toTwoDecimals,
+          setValueAs: parseDecimalInput,
         })}
       />
 

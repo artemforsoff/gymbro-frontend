@@ -3,6 +3,7 @@ import { ProductForm } from '@/entities/product';
 import { type Product } from '@/entities/product/model/types';
 import { updateProductFx } from './model';
 import { useUnit } from 'effector-react';
+import { toast } from 'react-toastify';
 
 type UpdateProductFormProps = {
   onSuccess: () => void;
@@ -18,9 +19,12 @@ export const UpdateProductForm: FC<UpdateProductFormProps> = ({ onSuccess, produ
       id: product.id,
     })
       .then(() => {
+        toast.success('Продукт успешно обновлен');
         onSuccess();
       })
-      .catch(() => {});
+      .catch(() => {
+        toast.error('Произошла ошибка');
+      });
   };
 
   return (

@@ -5,8 +5,9 @@
   overflow: hidden;
   border-radius: var(--gb-border-radius);
   z-index: 1;
+  box-shadow: var(--gb-box-shadow);
+  border: 2px solid rgba(var(--gb-hint-color--rgb), 0.2);
   min-width: 100px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
   .dropdown-menu-item {
     border-radius: 0;
