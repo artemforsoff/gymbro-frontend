@@ -2,13 +2,13 @@ import { type FC } from 'react';
 import styles from './styles.module.scss';
 import { type Product } from '@/entities/product/model/types';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
-import { DropdownMenu, IconButton } from '@/shared/ui/kit';
+import { DropdownMenu, IconButton, Image } from '@/shared/ui/kit';
 import clsx from 'clsx';
 import { useConfirm } from '@/shared/ui/confirm';
 
 type ProductCardProps = {
   product: Product;
-  onDelete?: (productId: Product) => void;
+  onDelete?: (product: Product) => void;
   onChange?: (product: Product) => void;
   className?: string;
   onSelect?: (product: Product) => void;
@@ -40,6 +40,8 @@ export const ProductCard: FC<ProductCardProps> = ({
       })}
       onClick={() => onSelect?.(product)}
     >
+      <Image className={styles.image} src={''} />
+
       <div className={styles.info}>
         <div className={styles.name}>{name}</div>
         <div className={styles.subtitle}>
@@ -57,7 +59,7 @@ export const ProductCard: FC<ProductCardProps> = ({
           <DropdownMenu
             placement="bottom-end"
             trigger={
-              <IconButton className="plain-button">
+              <IconButton>
                 <EllipsisIcon />
               </IconButton>
             }

@@ -5,9 +5,10 @@ import { CirclePlus as CirclePlusIcon } from 'lucide-react';
 import { useModal } from '@/shared/ui/modal/use-modal';
 import { useGate, useUnit } from 'effector-react';
 import { ProductsPageGate } from '../model';
-import { ProductList, productModel } from '@/entities/product';
-import { CreateProductForm, UpdateProductForm } from '@/features/product';
+import { productModel } from '@/entities/product';
+import { CreateProductForm, ProductList, UpdateProductForm } from '@/features/product';
 import { IconButton } from '@/shared/ui/kit';
+import { toast } from 'react-toastify';
 
 export const ProductsPage: FC<PageProps> = () => {
   useGate(ProductsPageGate);
@@ -24,7 +25,9 @@ export const ProductsPage: FC<PageProps> = () => {
   };
 
   const deleteProduct: ComponentProps<typeof ProductList>['onDeleteProduct'] = ({ id }) => {
-    productModel.effects.deleteProductFx(id);
+    productModel.effects.deleteProductFx(id).then(() => {
+      toast.success('Продукт успешно удален');
+    });
   };
 
   const changeProduct: ComponentProps<typeof ProductList>['onChangeProduct'] = (product) => {

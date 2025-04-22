@@ -8,9 +8,17 @@ import { Button } from '../../button';
 type DropdownMenuProps = PropsWithChildren<{
   trigger: ReactNode;
   placement?: Placement;
+  className?: string;
+  triggerClassName?: string;
 }>;
 
-export const DropdownMenu = ({ children, trigger, placement = 'bottom' }: DropdownMenuProps) => {
+export const DropdownMenu = ({
+  children,
+  trigger,
+  placement = 'bottom',
+  className,
+  triggerClassName,
+}: DropdownMenuProps) => {
   const [open, setOpen] = useState(false);
   const { refs, floatingStyles, update } = useFloating<HTMLDivElement>({
     placement,
@@ -32,13 +40,17 @@ export const DropdownMenu = ({ children, trigger, placement = 'bottom' }: Dropdo
 
   return (
     <>
-      <div ref={refs.setReference} onClick={() => setOpen((prev) => !prev)}>
+      <div
+        className={triggerClassName}
+        ref={refs.setReference}
+        onClick={() => setOpen((prev) => !prev)}
+      >
         {trigger}
       </div>
 
       {open && (
         <div
-          className={styles['dropdown-menu']}
+          className={clsx(styles['dropdown-menu'], className)}
           ref={refs.setFloating}
           style={floatingStyles}
           onClick={() => setOpen(false)}

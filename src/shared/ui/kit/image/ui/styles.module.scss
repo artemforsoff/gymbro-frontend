@@ -1,0 +1,17 @@
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--gb-border-radius);
+  border: 2px solid rgba(var(--gb-hint-color--rgb), 0.2);
+  color: var(--gb-hint-color);
+
+  img {
+    display: block;
+  }
+
+  &__error {
+    opacity: 0.2;
+  }
+}

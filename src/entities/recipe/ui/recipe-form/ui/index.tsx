@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { type Recipe } from '../../../model/types';
 import { z } from 'zod';
 import { decimalNumberSchema, toDecimals } from '@/shared/lib';
@@ -29,16 +29,23 @@ type RecipeFormProps = {
   initialValues?: Omit<Recipe, 'id'>;
   onSubmit: (data: RecipeFormData) => void;
   onAddProduct?: () => Promise<Product>;
+  isLoading: boolean;
+  submitButtonText: string;
 };
 
-export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
+export const RecipeForm: FC<RecipeFormProps> = ({
+  onSubmit,
+  onAddProduct,
+  isLoading,
+  submitButtonText,
+  initialValues,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    // setValue,
     control,
-    // reset,
+    reset,
   } = useForm<RecipeFormData>({
     resolver: zodResolver(recipeSchema),
     defaultValues: {
@@ -57,18 +64,29 @@ export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
 
   const [selectedProducts, setSelectedProducts] = useState<Record<Product['id'], Product>>({});
 
-  // useEffect(() => {
-  //   if (initialValues) {
-  //     reset({
-  //       ...initialValues,
-  //       products:
-  //         initialValues.products?.map((p) => ({
-  //           ...p,
-  //           amount: +p.amount,
-  //         })) ?? [],
-  //     });
-  //   }
-  // }, [initialValues, reset]);
+  useEffect(() => {
+    if (initialValues) {
+      reset({
+        ...initialValues,
+        products:
+          initialValues.products?.map(({ amount, productId }) => ({
+            productId,
+            amount: Number(amount),
+          })) ?? [],
+      });
+    }
+  }, [initialValues, reset]);
+
+  useEffect(() => {
+    if (initialValues?.products) {
+      setSelectedProducts(
+        initialValues.products.reduce(
+          (acc, { productId, product }) => ({ ...acc, [productId]: product }),
+          {},
+        ),
+      );
+    }
+  }, [initialValues?.products]);
 
   const parseDecimalInput = (value: string) => {
     if (typeof value === 'string') {
@@ -86,6 +104,25 @@ export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
     });
   };
 
+  const productsErrorMessage = errors.products?.message || errors.products?.root?.message;
+
+  const handleRemoveProduct = ({
+    index,
+    productId,
+  }: {
+    productId: Product['id'];
+    index: number;
+  }) => {
+    removeProduct(index);
+
+    setSelectedProducts((prev) => {
+      const newSelectedProducts = { ...prev };
+      delete newSelectedProducts[productId];
+
+      return newSelectedProducts;
+    });
+  };
+
   return (
     <form className={styles['recipe-form']} onSubmit={handleSubmit(onSubmit)}>
       <Input label="Название" error={errors.name?.message} {...register('name')} />
@@ -97,7 +134,7 @@ export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
           <ul className={styles.products__list}>
             <li className={clsx(styles.product, styles['product-captions'])}>
               <span>Название</span>
-              <span>Вес</span>
+              <span>Вес(г)</span>
             </li>
 
             {products.map(({ productId }, index) => {
@@ -116,7 +153,10 @@ export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
                     })}
                   />
 
-                  <IconButton type="button" onClick={() => removeProduct(index)}>
+                  <IconButton
+                    type="button"
+                    onClick={() => handleRemoveProduct({ index, productId })}
+                  >
                     <XIcon />
                   </IconButton>
                 </li>
@@ -126,7 +166,7 @@ export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
         )}
 
         <footer>
-          {errors.products?.message && <p className={styles.error}>{errors.products?.message}</p>}
+          {productsErrorMessage && <p className={styles.error}>{productsErrorMessage}</p>}
 
           <IconButton type="button" className={styles.products__add} onClick={handleAddProduct}>
             <CirclePlusIcon />
@@ -136,8 +176,8 @@ export const RecipeForm: FC<RecipeFormProps> = ({ onSubmit, onAddProduct }) => {
 
       <Input label="Описание" error={errors.description?.message} {...register('description')} />
 
-      <Button type="submit" className={styles.submit}>
-        Сохранить
+      <Button type="submit" className={styles.submit} loading={isLoading}>
+        {submitButtonText}
       </Button>
     </form>
   );

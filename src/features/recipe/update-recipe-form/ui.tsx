@@ -1,23 +1,30 @@
 import { type ComponentProps, type FC } from 'react';
 import { useUnit } from 'effector-react';
 import { toast } from 'react-toastify';
-import { createRecipeFx } from './model';
+import { updateRecipeFx } from './model';
 import { RecipeForm } from '@/entities/recipe';
+import { type Recipe } from '@/entities/recipe/model/types';
 
-type CreateRecipeFormProps = {
+type UpdateCreateRecipeFormProps = {
+  recipe: Recipe;
   onSuccess?: () => void;
   onAddProduct?: ComponentProps<typeof RecipeForm>['onAddProduct'];
 };
 
-export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ onSuccess, onAddProduct }) => {
-  const isLoading = useUnit(createRecipeFx.pending);
+export const UpdateRecipeForm: FC<UpdateCreateRecipeFormProps> = ({
+  recipe,
+  onSuccess,
+  onAddProduct,
+}) => {
+  const isLoading = useUnit(updateRecipeFx.pending);
 
   const createRecipe: ComponentProps<typeof RecipeForm>['onSubmit'] = ({
     name,
     products,
     description = '',
   }) => {
-    createRecipeFx({
+    updateRecipeFx({
+      id: recipe.id,
       name,
       description,
       isPublic: false,
@@ -36,8 +43,9 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ onSuccess, onAddPr
     <RecipeForm
       onSubmit={createRecipe}
       onAddProduct={onAddProduct}
+      initialValues={recipe}
       isLoading={isLoading}
-      submitButtonText="Добавить"
+      submitButtonText="Обновить"
     />
   );
 };
