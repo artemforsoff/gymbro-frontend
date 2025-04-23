@@ -1,9 +1,17 @@
-import { useEffect, useMemo, useState, type ComponentProps, type FC } from 'react';
+import {
+  createElement,
+  Fragment,
+  useEffect,
+  useMemo,
+  useState,
+  type ComponentProps,
+  type FC,
+} from 'react';
 import { ProductCard } from '@/entities/product';
-import { Product } from '@/entities/product/model/types';
 import styles from './styles.module.scss';
-import { Input, Placeholder } from '@/shared/ui/kit';
+import { Button, CheckBox, Input, Placeholder } from '@/shared/ui/kit';
 import { useDebounceValue } from 'usehooks-ts';
+import { type Product } from '@/shared/types/entities';
 
 type ProductCardProps = ComponentProps<typeof ProductCard>;
 
@@ -13,7 +21,7 @@ type ProductListProps = {
   onDeleteProduct?: ProductCardProps['onDelete'];
   onAddProduct?: () => void;
   selectable?: boolean;
-  onSelectProduct?: (product: Product) => void;
+  onSelectProducts?: (products: Product[]) => void;
 };
 
 export const ProductList: FC<ProductListProps> = ({
@@ -22,12 +30,18 @@ export const ProductList: FC<ProductListProps> = ({
   onChangeProduct,
   onDeleteProduct,
   onAddProduct,
-  onSelectProduct,
+  onSelectProducts,
 }) => {
   const [localProducts, setLocalProducts] = useState<Product[]>(products);
   const [searchValue, setSearchValue] = useState('');
 
   const [debouncedSearchValue] = useDebounceValue(searchValue, 500);
+
+  const [selected, setSelected] = useState<Product[]>([]);
+
+  const handleSelect = (product: Product, checked: boolean) => {
+    setSelected((prev) => (checked ? [...prev, product] : prev.filter((p) => p.id !== product.id)));
+  };
 
   useEffect(() => {
     setLocalProducts(products);
@@ -63,19 +77,40 @@ export const ProductList: FC<ProductListProps> = ({
         />
       )}
 
-      {filteredProducts.map((product) => {
-        const { id } = product;
+      <div className={styles.content}>
+        {filteredProducts.map((product) => {
+          const { id } = product;
 
-        return (
-          <ProductCard
-            onSelect={onSelectProduct}
-            key={id}
-            product={product}
-            onChange={onChangeProduct}
-            onDelete={onDeleteProduct}
-          />
-        );
-      })}
+          const Product = () => (
+            <ProductCard
+              key={id}
+              product={product}
+              onChange={onChangeProduct}
+              onDelete={onDeleteProduct}
+              selectable={selectable}
+            />
+          );
+
+          if (selectable) {
+            return (
+              <CheckBox
+                onChange={(e) => {
+                  handleSelect(product, e.target.checked);
+                }}
+              >
+                <Product />
+              </CheckBox>
+            );
+          }
+          return <Product />;
+        })}
+      </div>
+
+      {selectable && (
+        <Button className={styles.button} onClick={() => onSelectProducts?.(selected)}>
+          Выбрать
+        </Button>
+      )}
     </div>
   );
 };

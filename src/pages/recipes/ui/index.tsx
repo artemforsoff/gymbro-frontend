@@ -9,7 +9,6 @@ import { RecipesPageGate } from '../model';
 import { recipeModel } from '@/entities/recipe';
 import { useModal } from '@/shared/ui/modal';
 import { productModel } from '@/entities/product';
-import { type Product } from '@/entities/product/model/types';
 import styles from './styles.module.scss';
 import { UpdateRecipeForm } from '@/features/recipe/update-recipe-form/ui';
 import { toast } from 'react-toastify';
@@ -22,15 +21,15 @@ export const RecipesPage: FC<PageProps> = () => {
   const recipes = useUnit(recipeModel.stores.$recipes);
   const products = useUnit(productModel.stores.$products);
 
-  const selectProduct = (): Promise<Product> => {
+  const selectProduct: ComponentProps<typeof CreateRecipeForm>['onAddProduct'] = () => {
     return new Promise((resolve) => {
       openModal({
         content: (
           <ProductList
             products={products || []}
             selectable
-            onSelectProduct={(product) => {
-              resolve(product);
+            onSelectProducts={(products) => {
+              resolve(products);
               closeModal();
             }}
           />

@@ -1,7 +1,7 @@
 import { createEffect } from 'effector';
 import { userModel } from '@/entities/user/model';
-import { type User } from '@/entities/user/model/types';
 import { api } from '@/shared/lib';
+import { type User } from '@/shared/types/entities';
 
 export const updateProfileFx = createEffect(
   (user: Pick<User, 'birthDate' | 'firstName' | 'lastName'>) => {

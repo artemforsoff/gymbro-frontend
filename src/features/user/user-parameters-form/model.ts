@@ -1,6 +1,6 @@
 import { userModel } from '@/entities/user/model';
-import { UserParameters } from '@/entities/user/model/types';
 import { api } from '@/shared/lib';
+import { type UserParameters } from '@/shared/types/entities';
 import { createEffect } from 'effector';
 
 export const setUserParametersFx = createEffect((parameters: UserParameters) => {

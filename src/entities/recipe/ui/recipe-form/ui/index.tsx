@@ -1,14 +1,13 @@
 import { useEffect, useState, type FC } from 'react';
-import { type Recipe } from '../../../model/types';
 import { z } from 'zod';
 import { decimalNumberSchema, toDecimals } from '@/shared/lib';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './styles.module.scss';
 import { Button, IconButton, Input } from '@/shared/ui/kit';
-import { type Product } from '@/entities/product/model/types';
 import { CirclePlusIcon, XIcon } from 'lucide-react';
 import clsx from 'clsx';
+import { type Product, type Recipe } from '@/shared/types/entities';
 
 const recipeSchema = z.object({
   name: z.string().min(1, 'Название обязательно'),
@@ -28,7 +27,7 @@ type RecipeFormData = z.infer<typeof recipeSchema>;
 type RecipeFormProps = {
   initialValues?: Omit<Recipe, 'id'>;
   onSubmit: (data: RecipeFormData) => void;
-  onAddProduct?: () => Promise<Product>;
+  onAddProduct?: () => Promise<Product[]>;
   isLoading: boolean;
   submitButtonText: string;
 };
@@ -96,11 +95,17 @@ export const RecipeForm: FC<RecipeFormProps> = ({
   };
 
   const handleAddProduct = () => {
-    onAddProduct?.().then((product) => {
-      if (selectedProducts[product.id]) return;
+    onAddProduct?.().then((products) => {
+      const notExistProducts = products.filter((product) => !selectedProducts[product.id]);
 
-      appendProduct({ productId: product.id, amount: 0 });
-      setSelectedProducts((prev) => ({ ...prev, [product.id]: product }));
+      notExistProducts.forEach((product) => {
+        appendProduct({ productId: product.id, amount: 0 });
+
+        setSelectedProducts((prev) => ({
+          ...prev,
+          [product.id]: product,
+        }));
+      });
     });
   };
 

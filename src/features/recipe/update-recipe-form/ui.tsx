@@ -3,7 +3,7 @@ import { useUnit } from 'effector-react';
 import { toast } from 'react-toastify';
 import { updateRecipeFx } from './model';
 import { RecipeForm } from '@/entities/recipe';
-import { type Recipe } from '@/entities/recipe/model/types';
+import { type Recipe } from '@/shared/types/entities';
 
 type UpdateCreateRecipeFormProps = {
   recipe: Recipe;

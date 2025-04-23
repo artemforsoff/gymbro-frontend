@@ -1,8 +1,8 @@
 import { createEffect, createStore, sample } from 'effector';
-import type { Nullable } from '@/shared/types/utility-types';
-import type { Product } from './types';
+import { type Nullable } from '@/shared/types/utility-types';
 import { $productCategories, getProductCategoriesFx } from './categories';
 import { api } from '@/shared/lib';
+import { type Product } from '@/shared/types/entities';
 
 const $products = createStore<Nullable<Product[]>>(null);
 

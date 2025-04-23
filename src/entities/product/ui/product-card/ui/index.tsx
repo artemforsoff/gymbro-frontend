@@ -1,10 +1,10 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss';
-import { type Product } from '@/entities/product/model/types';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
 import { DropdownMenu, IconButton, Image } from '@/shared/ui/kit';
 import clsx from 'clsx';
 import { useConfirm } from '@/shared/ui/confirm';
+import { type Product } from '@/shared/types/entities';
 
 type ProductCardProps = {
   product: Product;
@@ -12,6 +12,7 @@ type ProductCardProps = {
   onChange?: (product: Product) => void;
   className?: string;
   onSelect?: (product: Product) => void;
+  selectable?: boolean;
 };
 
 export const ProductCard: FC<ProductCardProps> = ({
@@ -20,6 +21,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   onDelete,
   className,
   onSelect,
+  selectable,
 }) => {
   const { name, kcal, carbs, protein, fat, fiber } = product;
   const isShowDropdown = Boolean(onChange || onDelete);
@@ -36,7 +38,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   return (
     <article
       className={clsx(styles['product-card'], className, {
-        [styles['product-card--selectable']]: Boolean(onSelect),
+        [styles['product-card--selectable']]: selectable,
       })}
       onClick={() => onSelect?.(product)}
     >
@@ -44,13 +46,11 @@ export const ProductCard: FC<ProductCardProps> = ({
 
       <div className={styles.info}>
         <div className={styles.name}>{name}</div>
-        <div className={styles.subtitle}>
-          100 г · <strong>{kcal}</strong> ккал
-        </div>
+
         <div className={styles.description}>
-          БЖУ: <strong>{protein}</strong> г / <strong>{fat}</strong> г / <strong>{carbs}</strong> г
-          <br />
-          Клетчатка: <strong>{fiber}</strong> г
+          на 100 г: <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong> белков;{' '}
+          <strong>{fat} г </strong> жиров; <strong>{carbs} г</strong> углеводов;{' '}
+          <strong>{fiber} г</strong> клетчатки
         </div>
       </div>
 

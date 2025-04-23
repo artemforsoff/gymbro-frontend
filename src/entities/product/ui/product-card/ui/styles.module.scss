@@ -38,22 +38,9 @@
     color: var(--gb-text-color);
   }
 
-  .subtitle {
-    font-size: 13px;
-    color: var(--gb-hint-color);
-
-    strong {
-      color: var(--gb-accent-color);
-    }
-  }
-
   .description {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--gb-hint-color);
-
-    strong {
-      color: var(--gb-accent-color);
-    }
   }
 
   .menu {

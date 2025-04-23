@@ -1,7 +1,7 @@
 import { createEffect, sample } from 'effector';
 import { productModel } from '@/entities/product';
-import { Product } from '@/entities/product/model/types';
 import { api } from '@/shared/lib';
+import { type Product } from '@/shared/types/entities';
 
 export const updateProductFx = createEffect(({ id, ...product }: Product) => {
   return api

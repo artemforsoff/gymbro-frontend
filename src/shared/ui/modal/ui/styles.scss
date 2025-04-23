@@ -7,6 +7,9 @@
   overflow-y: auto;
   box-shadow: var(--gb-box-shadow);
   border: 2px solid rgba(var(--gb-hint-color--rgb), 0.5);
+  border-block-end: none;
+  display: flex;
+  flex-direction: column;
 
   &.ReactModal__Content--after-open {
     transform: translateY(0);
@@ -52,5 +55,9 @@
     font-size: 20px;
     font-weight: 500;
     margin: 0;
+  }
+
+  &__content {
+    flex: 1;
   }
 }

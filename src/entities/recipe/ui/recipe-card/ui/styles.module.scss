@@ -6,6 +6,11 @@
   display: flex;
   gap: 12px;
   align-items: start;
+  transition: all 0.3s ease;
+
+  &--selectable:hover {
+    background-color: rgba(var(--gb-hint-color--rgb), 0.1);
+  }
 
   .image {
     width: 62px;

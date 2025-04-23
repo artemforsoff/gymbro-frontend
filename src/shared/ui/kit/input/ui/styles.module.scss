@@ -10,24 +10,57 @@
   line-height: 20px;
 }
 
-.input {
-  border: 2px solid rgba(var(--gb-hint-color--rgb), 0.5);
-  padding: 8px 16px;
-  border-radius: var(--gb-border-radius);
-  background-color: var(--gb-bg-color);
-  color: var(--gb-text-color);
-  outline: none;
-  font-size: 16px;
-  line-height: 20px;
-  width: 100%;
+.input-wrapper {
+  position: relative;
 
-  &:focus {
-    border-color: var(--gb-accent-color);
+  --input-padding-block: 8px;
+  --input-line-height: 20px;
+  --input-border-width: 2px;
+
+  .input {
+    border: var(--input-border-width) solid rgba(var(--gb-hint-color--rgb), 0.5);
+    padding: var(--input-padding-block) 16px;
+    border-radius: var(--gb-border-radius);
+    background-color: var(--gb-bg-color);
+    color: var(--gb-text-color);
+    outline: none;
+    font-size: 16px;
+    line-height: var(--input-line-height);
+    width: 100%;
+
+    &:focus {
+      border-color: var(--gb-accent-color);
+    }
+
+    &--error {
+      border-color: var(--gb-danger-color);
+      color: var(--gb-danger-color);
+    }
+
+    &--postfix {
+      padding-inline-end: calc(var(--input-line-height) + var(--input-padding-block));
+    }
+
+    &:focus + .input-postfix {
+      color: var(--gb-accent-color);
+    }
   }
 
-  &--error {
-    border-color: var(--gb-danger-color);
-    color: var(--gb-danger-color);
+  .input-postfix {
+    color: rgba(var(--gb-hint-color--rgb), 0.5);
+    position: absolute;
+    height: calc(
+      var(--input-line-height) + var(--input-padding-block) * 2 + var(--input-border-width) * 2
+    );
+    aspect-ratio: 1 / 1;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: var(--input-line-height);
+    font-size: 20px;
+    padding-block-end: 4px;
   }
 }
 

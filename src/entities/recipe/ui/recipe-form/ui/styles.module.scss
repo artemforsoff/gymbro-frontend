@@ -1,7 +1,7 @@
 .recipe-form {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 8px 16px 256px;
 
   .products {
     display: flex;
@@ -50,7 +50,7 @@
 
     &__name {
       color: var(--gb-text-color);
-      font-size: 20px;
+      font-size: 16px;
     }
   }
 

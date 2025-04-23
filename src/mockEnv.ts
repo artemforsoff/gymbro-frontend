@@ -1,4 +1,5 @@
 import { mockTelegramEnv, isTMA, emitEvent } from '@telegram-apps/sdk-react';
+import { DateTime } from 'luxon';
 
 // It is important, to mock the environment only for development purposes. When building the
 // application, import.meta.env.DEV will become false, and the code inside will be tree-shaken,
@@ -65,7 +66,7 @@ if (import.meta.env.DEV) {
         [
           'tgWebAppData',
           new URLSearchParams([
-            ['auth_date', ((new Date().getTime() / 1000) | 0).toString()],
+            ['auth_date', DateTime.utc().toSeconds().toFixed(0)],
             ['hash', 'some-hash'],
             ['signature', 'some-signature'],
             ['user', JSON.stringify({ id: 1, first_name: 'Vladislav' })],

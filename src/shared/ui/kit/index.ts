@@ -8,3 +8,4 @@ export { Select } from './select';
 export { Placeholder } from './placeholder';
 export { CircularProgress } from './circular-progress';
 export { Image } from './image';
+export { CheckBox } from './checkbox';

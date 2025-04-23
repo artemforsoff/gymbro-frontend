@@ -12,6 +12,7 @@ import styles from './styles.module.scss';
 import { Button, Input, Select } from '@/shared/ui/kit';
 import { decimalNumberSchema } from '@/shared/lib/zod';
 import { toDecimals } from '@/shared/lib/to-decimals';
+import { toast } from 'react-toastify';
 
 const userParamsSchema = z.object({
   weight: decimalNumberSchema(),
@@ -58,11 +59,6 @@ export const UserParametersForm: FC = () => {
   }, [userParameters]);
 
   const onSubmit = (data: UserParameters) => {
-    if (JSON.stringify(data) === JSON.stringify(userParameters)) {
-      // return notify.success('Данные успешно обновлены');
-      return;
-    }
-
     const { activityLevel, goal, height, sex, weight } = data;
 
     setUserParametersFx({
@@ -73,10 +69,10 @@ export const UserParametersForm: FC = () => {
       sex,
     })
       .then(() => {
-        // notify.success(`Данные успешно ${userParameters === null ? 'сохранены' : 'обновлены'}`);
+        toast.success(`Данные успешно ${userParameters === null ? 'сохранены' : 'обновлены'}`);
       })
       .catch(() => {
-        // notify.error('Произошла ошибка');
+        toast.error('Произошла ошибка');
       });
   };
 

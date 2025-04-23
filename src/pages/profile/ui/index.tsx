@@ -4,9 +4,9 @@ import { UserParametersForm, UserProfileForm } from '@/features/user';
 import { TabsList } from '@/shared/ui/kit';
 
 export const ProfilePage: FC<PageProps> = () => {
-  const DEFAULT_TAB = 'parameters';
+  const DEFAULT_TAB_KEY = 'parameters';
   const tabs: { [key: string]: { content: ComponentType; text: string } } = {
-    [DEFAULT_TAB]: {
+    [DEFAULT_TAB_KEY]: {
       content: UserParametersForm,
       text: 'Параметры',
     },
@@ -16,7 +16,7 @@ export const ProfilePage: FC<PageProps> = () => {
     },
   };
 
-  const [activeTab, setActiveTab] = useState(DEFAULT_TAB);
+  const [activeTab, setActiveTab] = useState(DEFAULT_TAB_KEY);
 
   const ActiveTab = tabs[activeTab].content;
 

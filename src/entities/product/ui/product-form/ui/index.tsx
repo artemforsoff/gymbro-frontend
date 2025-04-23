@@ -7,10 +7,10 @@ import { toZodEnum } from '@/shared/lib';
 import { PROTEIN_TYPES } from '@/shared/constants/product';
 import { $productCategoryOptions, proteinTypeOptions } from '../shared/options';
 import styles from './styles.module.scss';
-import { Product } from '../../../model/types';
 import { Button, Input, Select } from '@/shared/ui/kit';
 import { decimalNumberSchema } from '@/shared/lib/zod';
 import { toDecimals } from '@/shared/lib/to-decimals';
+import { type Product } from '@/shared/types/entities';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Название обязательно'),

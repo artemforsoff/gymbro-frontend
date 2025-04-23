@@ -8,6 +8,7 @@ import { updateProfileFx } from '../model';
 import styles from './styles.module.scss';
 import { DateTime } from 'luxon';
 import { Button, Input } from '@/shared/ui/kit';
+import { toast } from 'react-toastify';
 
 const updateProfileSchema = z.object({
   firstName: z.string().min(1, 'Обязательное поле'),
@@ -56,8 +57,12 @@ export const UserProfileForm: FC = () => {
       birthDate: birthDateISO,
       lastName: data.lastName || user?.lastName || '',
     })
-      .then(() => {})
-      .catch(() => {});
+      .then(() => {
+        toast.success('Данные успешно сохранены');
+      })
+      .catch(() => {
+        toast.error('Произошла ошибка');
+      });
   };
 
   return (

@@ -1,20 +1,15 @@
-import {
-  forwardRef,
-  ReactNode,
-  type DetailedHTMLProps,
-  type FC,
-  type InputHTMLAttributes,
-} from 'react';
+import { forwardRef, ReactNode, type DetailedHTMLProps, type InputHTMLAttributes } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
   label?: ReactNode;
   error?: string;
+  postfix?: string;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, id, error, ...props }, ref) => {
+  ({ className, label, id, error, postfix = null, ...props }, ref) => {
     return (
       <div className={styles['input-wrapper']}>
         {label && (
@@ -23,15 +18,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
 
-        <input
-          ref={ref}
-          id={id}
-          className={clsx(styles['input'], className, {
-            [styles['input--error']]: Boolean(error),
-          })}
-          data-error={error}
-          {...props}
-        />
+        <div className={styles['input-wrapper']}>
+          <input
+            ref={ref}
+            id={id}
+            className={clsx(styles['input'], className, {
+              [styles['input--error']]: Boolean(error),
+              [styles['input--postfix']]: Boolean(postfix),
+            })}
+            data-error={error}
+            {...props}
+          />
+
+          {postfix && <div className={styles['input-postfix']}>{postfix}</div>}
+        </div>
 
         {error && <span className={styles['input-error']}>{error}</span>}
       </div>

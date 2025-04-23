@@ -1,8 +1,7 @@
 import { createEffect, sample } from 'effector';
-import { Product } from '@/entities/product/model/types';
 import { api } from '@/shared/lib';
 import { recipeModel } from '@/entities/recipe/model';
-import { type Recipe } from '@/entities/recipe/model/types';
+import { type Product, type Recipe } from '@/shared/types/entities';
 
 type UpdateRecipePayload = Omit<Recipe, 'createdAt' | 'createdById' | 'products'> & {
   productList: Array<{ productId: Product['id']; amount: number }>;

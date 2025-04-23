@@ -1,7 +1,7 @@
 import { createEffect, createStore, sample } from 'effector';
-import { type Recipe } from './types';
 import { api } from '@/shared/lib';
-import { Nullable } from '@/shared/types/utility-types';
+import { type Nullable } from '@/shared/types/utility-types';
+import { type Recipe } from '@/shared/types/entities';
 
 const $recipes = createStore<Nullable<Recipe[]>>(null);
 
