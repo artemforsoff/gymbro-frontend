@@ -1,6 +1,6 @@
 import {
-  // setDebug,
-  // mountBackButton,
+  setDebug,
+  mountBackButton,
   // restoreInitData,
   init as initSDK,
   backButton,
@@ -25,7 +25,7 @@ export async function init(options: {
 }): Promise<void> {
   console.log({ options });
   // Set @telegram-apps/sdk-react debug mode and initialize it.
-  // setDebug(options.debug);
+  setDebug(options.debug);
   initSDK();
 
   // Add Eruda if needed.
@@ -64,7 +64,9 @@ export async function init(options: {
   // }
 
   // Mount all components used in the project.
-  backButton.mount();
+  if (mountBackButton.isAvailable()) {
+    backButton.mount();
+  }
   // mountBackButton.ifAvailable();
   // mountBackButton.
   // restoreInitData();
