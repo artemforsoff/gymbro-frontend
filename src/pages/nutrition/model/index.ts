@@ -1,29 +1,22 @@
-import { createEffect, createStore, sample } from 'effector';
-import { api } from '@/shared/lib';
-import { type Meal } from '@/shared/types/entities';
-import { type Nullable } from '@/shared/types/utility-types';
+import { createEvent, sample } from 'effector';
 import { createGate } from 'effector-react';
 import { productModel } from '@/entities/product';
 import { recipeModel } from '@/entities/recipe';
-import { DateTime } from 'luxon';
+import { userModel } from '@/entities/user/model';
 
 export const NutritionPageGate = createGate();
 
-export const $meals = createStore<Nullable<Meal[]>>(null);
+export const mealDeleted = createEvent();
+export const mealCreated = createEvent();
 
-export const getMealsFx = createEffect(({ date }: { date: string }) => {
-  return api.get('meal/user/me', { searchParams: { date } }).json<Meal[]>();
+sample({
+  clock: [NutritionPageGate.open, userModel.stores.$activityDay, mealDeleted, mealCreated],
+  source: userModel.stores.$activityDay,
+  fn: (date) => ({ date }),
+  target: userModel.effects.getMealsByActivityDayFx,
 });
-
-$meals.on(getMealsFx.doneData, (_, meals) => meals);
 
 sample({
   clock: NutritionPageGate.open,
   target: [productModel.effects.getProductsFx, recipeModel.effects.getRecipesFx],
-});
-
-sample({
-  clock: NutritionPageGate.open,
-  fn: () => ({ date: DateTime.now().toFormat('yyyy-MM-dd') }),
-  target: getMealsFx,
 });

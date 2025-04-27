@@ -11,16 +11,17 @@ type NutritionProps = {
 export const Nutrition: FC<NutritionProps> = ({ label, current, total }) => {
   return (
     <li className={styles.nutrition}>
-      <CircularProgress
-        className={styles.nutrition__progress}
-        progress={total === 0 ? 0 : Math.min((current / total) * 100, 100)}
-      />
-
       <label className={styles.nutrition__label}>{label}</label>
 
-      <p className={styles.nutrition__result}>
-        <strong>{current}</strong>/{total}
-      </p>
+      <div className={styles.nutrition__progress}>
+        <span>{current}</span>
+        <CircularProgress
+          size={64}
+          progress={total === 0 ? 0 : Math.min((current / total) * 100, 100)}
+        />
+      </div>
+
+      <p className={styles.nutrition__target}>{total}</p>
     </li>
   );
 };

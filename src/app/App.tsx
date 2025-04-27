@@ -71,16 +71,14 @@ export function App() {
       <Header routes={routes} />
 
       <Routes>
-        {Object.values(routes).map(({ Component, path, back, navigation }) => (
+        {Object.values(routes).map(({ Component, path, back, main }) => (
           <Route
             key={path}
             path={path}
             element={
-              <main>
-                <PageWrapper back={back} navigation={navigation} routes={routes}>
-                  <Component routes={routes} />
-                </PageWrapper>
-              </main>
+              <PageWrapper back={back} main={main} routes={routes}>
+                <Component routes={routes} />
+              </PageWrapper>
             }
           />
         ))}

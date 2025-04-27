@@ -27,6 +27,7 @@
     font-size: 16px;
     line-height: var(--input-line-height);
     width: 100%;
+    transition: all 0.2s ease;
 
     &:focus {
       border-color: var(--gb-accent-color);
@@ -38,7 +39,9 @@
     }
 
     &--postfix {
-      padding-inline-end: calc(var(--input-line-height) + var(--input-padding-block));
+      padding-inline-end: calc(
+        var(--input-line-height) + var(--input-padding-block) * 2 + var(--input-border-width) * 2
+      );
     }
 
     &:focus + .input-postfix {
@@ -49,18 +52,15 @@
   .input-postfix {
     color: rgba(var(--gb-hint-color--rgb), 0.5);
     position: absolute;
-    height: calc(
-      var(--input-line-height) + var(--input-padding-block) * 2 + var(--input-border-width) * 2
-    );
-    aspect-ratio: 1 / 1;
-    right: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    right: var(--input-border-width);
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 40px;
     line-height: var(--input-line-height);
     font-size: 20px;
+    padding-inline-end: 16px;
     padding-block-end: 4px;
+    text-align: right;
   }
 }
 

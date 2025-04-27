@@ -4,16 +4,13 @@ import { type PropsWithChildren, ReactNode, useEffect } from 'react';
 import { PageProps, Route } from '@/pages/types';
 import { Dumbbell, LayoutDashboard, Utensils } from 'lucide-react';
 import styles from './styles.module.scss';
-import { Link } from '@/shared/ui/kit';
+import { Input, Link } from '@/shared/ui/kit';
+import { useUnit } from 'effector-react';
+import { userModel } from '@/entities/user/model';
 
-type PageWrapperProps = PropsWithChildren<PageProps & Pick<Route, 'back' | 'navigation'>>;
+type PageWrapperProps = PropsWithChildren<PageProps & Pick<Route, 'back' | 'main'>>;
 
-export const PageWrapper = ({
-  children,
-  back = false,
-  navigation = false,
-  routes,
-}: PageWrapperProps) => {
+export const PageWrapper = ({ children, back = false, main = false, routes }: PageWrapperProps) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -45,10 +42,23 @@ export const PageWrapper = ({
     },
   ];
 
+  const activityDate = useUnit(userModel.stores.$activityDay);
+
+  const changeActivityDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    userModel.events.activityDayChanged(e.target.value);
+  };
+
   return (
-    <>
-      {navigation ? (
+    <main className={styles['page-wrapper']}>
+      {main ? (
         <>
+          <Input
+            value={activityDate}
+            type="date"
+            wrapperClassName={styles['page-datepicker']}
+            onChange={changeActivityDate}
+          />
+
           <div className={styles['page-inner']}>{children}</div>
 
           <nav className={styles.nav}>
@@ -68,6 +78,6 @@ export const PageWrapper = ({
       ) : (
         children
       )}
-    </>
+    </main>
   );
 };

@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { mealSchema, type MealSchema } from '../lib/validation-schema';
 import { toDecimals } from '@/shared/lib';
+import { DateTime } from 'luxon';
 
 export type MealFormProps = {
   onSelectProducts: () => Promise<Product[]>;
@@ -28,6 +29,7 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
     defaultValues: {
       products: [],
       recipes: [],
+      datetime: DateTime.now().toISO(),
     },
   });
   const products = watch('products');
@@ -150,43 +152,18 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
     <form className={styles['meal-form']} onSubmit={handleSubmit(onSubmit)}>
       <Input label="Название" error={errors.name?.message} {...register('name')} />
 
+      <Input
+        label="Время приёма"
+        type="datetime-local"
+        error={errors.datetime?.message}
+        {...register('datetime')}
+      />
+
       <figure className={styles.positions}>
         <figcaption className={styles.positions__label}>Позиции</figcaption>
 
         {!isEmpty && (
           <ul className={styles.positions__list}>
-            {products?.map(({ productId }, productIndex) => {
-              const product = selectedProductsMap[productId];
-
-              return (
-                <li className={styles.position}>
-                  <header className={styles.position__header}>
-                    <p className={styles.position__name}>
-                      <span>Продукт: </span>
-                      {product.name}
-                    </p>
-
-                    <Input
-                      type="text"
-                      inputMode="decimal"
-                      error={errors.products?.[productIndex]?.amount?.message}
-                      postfix="г"
-                      {...register(`products.${productIndex}.amount`, {
-                        setValueAs: parseDecimalInput,
-                      })}
-                    />
-
-                    <IconButton
-                      type="button"
-                      onClick={() => handleRemoveProduct({ index: productIndex, productId })}
-                    >
-                      <XIcon />
-                    </IconButton>
-                  </header>
-                </li>
-              );
-            })}
-
             {recipes?.map(({ recipeId, customProducts }, recipeIndex) => {
               const recipe = selectedRecipesMap[recipeId];
 
@@ -199,6 +176,7 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
                     </p>
 
                     <Input
+                      label="Порциии"
                       type="text"
                       inputMode="decimal"
                       error={errors.recipes?.[recipeIndex]?.portions?.message}
@@ -260,6 +238,38 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
                       );
                     })}
                   </ul>
+                </li>
+              );
+            })}
+
+            {products?.map(({ productId }, productIndex) => {
+              const product = selectedProductsMap[productId];
+
+              return (
+                <li className={styles.position}>
+                  <header className={styles.position__header}>
+                    <p className={styles.position__name}>
+                      <span>Продукт: </span>
+                      {product.name}
+                    </p>
+
+                    <Input
+                      type="text"
+                      inputMode="decimal"
+                      error={errors.products?.[productIndex]?.amount?.message}
+                      postfix="г"
+                      {...register(`products.${productIndex}.amount`, {
+                        setValueAs: parseDecimalInput,
+                      })}
+                    />
+
+                    <IconButton
+                      type="button"
+                      onClick={() => handleRemoveProduct({ index: productIndex, productId })}
+                    >
+                      <XIcon />
+                    </IconButton>
+                  </header>
                 </li>
               );
             })}

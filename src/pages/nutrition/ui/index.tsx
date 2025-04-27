@@ -1,24 +1,24 @@
 import { type PageProps } from '@/pages/types';
-import { IconButton, Input } from '@/shared/ui/kit';
-import { ComponentProps, useState, type FC } from 'react';
-import { $meals, getMealsFx, NutritionPageGate } from '../model';
-import styles from './styles.module.scss';
+import { IconButton } from '@/shared/ui/kit';
+import { type ComponentProps, type FC } from 'react';
 import { useGate, useUnit } from 'effector-react';
 import { CirclePlusIcon } from 'lucide-react';
-import { useModal } from '@/shared/ui/modal';
-import { CreateMealForm } from '@/features/meal';
+import { CreateMealForm, MealHistory } from '@/features/meal';
+import { NutritionPageGate, mealCreated, mealDeleted } from '../model';
 import { ProductList } from '@/features/product';
 import { productModel } from '@/entities/product';
 import { recipeModel } from '@/entities/recipe';
 import { RecipeList } from '@/features/recipe';
-import { DateTime } from 'luxon';
+import { userModel } from '@/entities/user/model';
+import { useModal } from '@/shared/ui/modal';
+import styles from './styles.module.scss';
 
 export const NutritionPage: FC<PageProps> = () => {
   useGate(NutritionPageGate);
 
   const products = useUnit(productModel.stores.$products);
   const recipes = useUnit(recipeModel.stores.$recipes);
-  const meals = useUnit($meals);
+  const meals = useUnit(userModel.stores.$mealsInActivityDay);
 
   const { openModal, closeModal } = useModal();
 
@@ -58,8 +58,6 @@ export const NutritionPage: FC<PageProps> = () => {
     });
   };
 
-  const [date, setDate] = useState(() => DateTime.now().toFormat('yyyy-MM-dd'));
-
   const handleCreateMeal = () => {
     openModal({
       content: (
@@ -67,7 +65,7 @@ export const NutritionPage: FC<PageProps> = () => {
           onSelectProducts={selectProducts}
           onSelectRecipes={selectRecipes}
           onSuccess={() => {
-            getMealsFx({ date });
+            mealCreated();
             closeModal();
           }}
         />
@@ -82,9 +80,7 @@ export const NutritionPage: FC<PageProps> = () => {
         <CirclePlusIcon />
       </IconButton>
 
-      <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-
-      <pre>{JSON.stringify(meals, null, 2)}</pre>
+      <MealHistory meals={meals || []} onSuccessDelete={mealDeleted} onAddMeal={handleCreateMeal} />
     </div>
   );
 };

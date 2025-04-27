@@ -6,7 +6,7 @@ export type Route = {
   path: string;
   Component: ComponentType<PageProps>;
   back?: boolean;
-  navigation?: boolean;
+  main?: boolean;
 };
 
 export type Routes = Record<RouteKey, Route>;

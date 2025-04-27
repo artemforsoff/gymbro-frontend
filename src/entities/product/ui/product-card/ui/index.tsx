@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import styles from './styles.module.scss';
 import { Ellipsis as EllipsisIcon } from 'lucide-react';
 import { DropdownMenu, IconButton, Image } from '@/shared/ui/kit';
@@ -13,6 +13,7 @@ type ProductCardProps = {
   className?: string;
   onSelect?: (product: Product) => void;
   selectable?: boolean;
+  amount?: number;
 };
 
 export const ProductCard: FC<ProductCardProps> = ({
@@ -22,8 +23,25 @@ export const ProductCard: FC<ProductCardProps> = ({
   className,
   onSelect,
   selectable,
+  amount = 100,
 }) => {
-  const { name, kcal, carbs, protein, fat, fiber } = product;
+  const { name, imageUrl } = product;
+
+  const { carbs, fat, fiber, kcal, protein } = useMemo(() => {
+    const { kcal, protein, fat, carbs, fiber } = product;
+    const factor = amount / 100;
+
+    if (factor === 1) return { kcal, protein, fat, carbs, fiber };
+
+    return {
+      kcal: +kcal * factor,
+      protein: +protein * factor,
+      fat: +fat * factor,
+      carbs: +carbs * factor,
+      fiber: +fiber * factor,
+    };
+  }, [product, amount]);
+
   const isShowDropdown = Boolean(onChange || onDelete);
 
   const { confirm } = useConfirm();
@@ -42,13 +60,15 @@ export const ProductCard: FC<ProductCardProps> = ({
       })}
       onClick={() => onSelect?.(product)}
     >
-      <Image className={styles.image} src={''} />
+      <Image className={styles.image} src={imageUrl ?? ''} />
 
       <div className={styles.info}>
-        <div className={styles.name}>{name}</div>
+        <h3 className={styles.name}>
+          {name} <span>({amount} г)</span>
+        </h3>
 
         <div className={styles.description}>
-          на 100 г: <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong> белков;{' '}
+          <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong> белков;{' '}
           <strong>{fat} г </strong> жиров; <strong>{carbs} г</strong> углеводов;{' '}
           <strong>{fiber} г</strong> клетчатки
         </div>

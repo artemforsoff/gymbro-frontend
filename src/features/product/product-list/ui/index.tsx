@@ -1,12 +1,4 @@
-import {
-  createElement,
-  Fragment,
-  useEffect,
-  useMemo,
-  useState,
-  type ComponentProps,
-  type FC,
-} from 'react';
+import { useEffect, useMemo, useState, type ComponentProps, type FC } from 'react';
 import { ProductCard } from '@/entities/product';
 import styles from './styles.module.scss';
 import { Button, CheckBox, Input, Placeholder } from '@/shared/ui/kit';

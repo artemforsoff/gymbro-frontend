@@ -13,7 +13,7 @@
     "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "ngrok": "ngrok http 3000"
+    "localtunnel": "npx localtunnel --port 3000"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.7",
@@ -55,7 +55,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "gh-pages": "^6.1.1",
     "globals": "^15.2.0",
-    "ngrok": "^5.0.0-beta.2",
+    "localtunnel": "^2.0.2",
     "prettier": "^3.5.3",
     "sass-embedded": "^1.86.3",
     "typescript": "^5.8.2",

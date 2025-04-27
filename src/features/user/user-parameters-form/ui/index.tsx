@@ -25,8 +25,8 @@ const userParamsSchema = z.object({
 type UserParameters = z.infer<typeof userParamsSchema>;
 
 export const UserParametersForm: FC = () => {
-  const userParameters = useUnit(userModel.stores.$userParameters);
-  const isLoading = useUnit(userModel.effects.getUserParametersFx.pending);
+  const userParameters = useUnit(userModel.stores.$actualUserParameters);
+  const isLoading = useUnit(userModel.effects.getUserParametersByDateFx.pending);
 
   const {
     register,
@@ -99,7 +99,8 @@ export const UserParametersForm: FC = () => {
       </Select>
 
       <Input
-        label="Вес (кг)"
+        label="Вес"
+        postfix="кг"
         inputMode="decimal"
         error={errors.weight?.message}
         {...register('weight', {
@@ -108,8 +109,9 @@ export const UserParametersForm: FC = () => {
       />
 
       <Input
-        label="Рост (см)"
-        type="number"
+        label="Рост"
+        postfix="см"
+        inputMode="numeric"
         error={errors.height?.message}
         {...register('height', { valueAsNumber: true })}
       />

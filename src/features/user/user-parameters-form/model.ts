@@ -1,7 +1,8 @@
 import { userModel } from '@/entities/user/model';
 import { api } from '@/shared/lib';
 import { type UserParameters } from '@/shared/types/entities';
-import { createEffect } from 'effector';
+import { createEffect, sample } from 'effector';
+import { DateTime } from 'luxon';
 
 export const setUserParametersFx = createEffect((parameters: UserParameters) => {
   return api
@@ -11,4 +12,8 @@ export const setUserParametersFx = createEffect((parameters: UserParameters) => 
     .json<UserParameters>();
 });
 
-userModel.stores.$userParameters.on(setUserParametersFx.doneData, (_, parameters) => parameters);
+sample({
+  clock: setUserParametersFx.doneData,
+  fn: () => ({ date: DateTime.now().toFormat('yyyy-MM-dd') }),
+  target: userModel.effects.getUserParametersByDateFx,
+});

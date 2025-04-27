@@ -10,9 +10,11 @@ export const Image: FC<ImageProps> = ({ className, ...props }) => {
 
   return (
     <div className={clsx(styles.image, className)}>
-      <img {...props} onError={() => setImageFailed(true)} />
-
-      {imageFailed && <ImageOffIcon className={styles.image__error} />}
+      {imageFailed ? (
+        <ImageOffIcon className={styles.image__error} />
+      ) : (
+        <img {...props} onError={() => setImageFailed(true)} />
+      )}
     </div>
   );
 };

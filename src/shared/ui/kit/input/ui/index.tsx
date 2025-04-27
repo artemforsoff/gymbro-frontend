@@ -6,12 +6,13 @@ type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLI
   label?: ReactNode;
   error?: string;
   postfix?: string;
+  wrapperClassName?: string;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, id, error, postfix = null, ...props }, ref) => {
+  ({ className, label, id, error, postfix = null, wrapperClassName, ...props }, ref) => {
     return (
-      <div className={styles['input-wrapper']}>
+      <div className={clsx(styles['input-wrapper'], wrapperClassName)}>
         {label && (
           <label htmlFor={id} className={styles['input-label']}>
             {label}

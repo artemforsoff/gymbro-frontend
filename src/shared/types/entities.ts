@@ -2,6 +2,14 @@ import type { Nullable } from '@/shared/types/utility-types';
 import { ProteinType } from '../constants/product';
 import { ActivityLevel, Gender, Goal } from '../constants/user-parameter';
 
+export type Nutrients = {
+  kcal: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+  fiber?: number;
+};
+
 export type User = {
   avatarUrl: Nullable<string>;
   birthDate: Nullable<string>;
@@ -39,6 +47,7 @@ export type Product = {
   proteinType: ProteinType;
   externalId?: string;
   source?: string;
+  imageUrl: Nullable<string>;
 };
 
 export type Recipe = {
@@ -56,4 +65,30 @@ export type Recipe = {
   createdById: User['id'];
 };
 
-export type Meal = {};
+export type Meal = {
+  datetime: string;
+  id: number;
+  mealType: Nullable<string>;
+  name: string;
+  note: Nullable<string>;
+  products: Array<{
+    amount: string;
+    mealId: Meal['id'];
+    productId: Product['id'];
+    product: Product;
+  }>;
+  recipes: Array<{
+    mealId: Meal['id'];
+    portions: string;
+    products: Array<{
+      amount: string;
+      productId: Product['id'];
+      recipeId: Recipe['id'];
+      mealId: Meal['id'];
+      product: Product;
+    }>;
+    recipe: Recipe;
+    recipeId: Recipe['id'];
+  }>;
+  userId: User['id'];
+};

@@ -3,16 +3,22 @@ import { api } from '@/shared/lib';
 import { getMeFx } from './user';
 import { type Nullable } from '@/shared/types/utility-types';
 import { type UserParameters } from '@/shared/types/entities';
+import { DateTime } from 'luxon';
 
-export const $userParameters = createStore<Nullable<UserParameters>>(null);
+export const $actualUserParameters = createStore<Nullable<UserParameters>>(null);
 
-export const getUserParametersFx = createEffect(() => {
-  return api.get('user/parameters').json<UserParameters>();
+export const getUserParametersByDateFx = createEffect(({ date }: { date: string }) => {
+  return api
+    .get('user/parameters', {
+      searchParams: { date },
+    })
+    .json<UserParameters>();
 });
 
-$userParameters.on(getUserParametersFx.doneData, (_, parameters) => parameters);
+$actualUserParameters.on(getUserParametersByDateFx.doneData, (_, parameters) => parameters);
 
 sample({
   clock: getMeFx.done,
-  target: getUserParametersFx,
+  fn: () => ({ date: DateTime.now().toFormat('yyyy-MM-dd') }),
+  target: getUserParametersByDateFx,
 });

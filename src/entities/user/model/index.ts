@@ -1,16 +1,24 @@
 import './auth';
-import { $userParameters, getUserParametersFx } from './user-parameters';
+import { $actualUserParameters, getUserParametersByDateFx } from './user-parameters';
 import { $user, getMeFx } from './user';
-import { $dailyNutrition } from './daily-nutrition';
+import { $activityDay, activityDayChanged, $targetNutritionInActivityDay } from './daily-nutrition';
+import { $mealsInActivityDay, $nutritionInActivityDay, getMealsByActivityDayFx } from './meals';
 
 export const userModel = {
   stores: {
     $user,
-    $userParameters,
-    $dailyNutrition,
+    $actualUserParameters,
+    $activityDay,
+    $targetNutritionInActivityDay,
+    $mealsInActivityDay,
+    $nutritionInActivityDay,
   },
   effects: {
     getMeFx,
-    getUserParametersFx,
+    getUserParametersByDateFx,
+    getMealsByActivityDayFx,
+  },
+  events: {
+    activityDayChanged,
   },
 };

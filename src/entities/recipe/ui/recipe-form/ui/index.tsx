@@ -139,7 +139,7 @@ export const RecipeForm: FC<RecipeFormProps> = ({
           <ul className={styles.products__list}>
             <li className={clsx(styles.product, styles['product-captions'])}>
               <span>Название</span>
-              <span>Вес(г)</span>
+              <span>Вес</span>
             </li>
 
             {products.map(({ productId }, index) => {
@@ -151,6 +151,7 @@ export const RecipeForm: FC<RecipeFormProps> = ({
 
                   <Input
                     type="text"
+                    postfix="г"
                     inputMode="decimal"
                     error={errors.products?.[index]?.amount?.message}
                     {...register(`products.${index}.amount`, {

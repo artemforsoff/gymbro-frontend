@@ -13,7 +13,7 @@
   }
 
   .image {
-    width: 62px;
+    width: 48px;
     aspect-ratio: 1 / 1;
   }
 
@@ -26,6 +26,10 @@
     font-size: 16px;
     color: var(--gb-text-color);
     margin: 0;
+
+    span {
+      color: var(--gb-hint-color);
+    }
   }
 
   .description {

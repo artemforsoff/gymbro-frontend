@@ -1,5 +1,5 @@
-@import './vars';
-@import './toast';
+@use './vars';
+@use './toast';
 
 *,
 *::before,
@@ -31,9 +31,11 @@ body {
 
 option {
   background-color: var(--gb-bg-color);
+  cursor: pointer;
 }
 
-ul[class] {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;

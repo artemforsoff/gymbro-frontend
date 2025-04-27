@@ -1,4 +1,4 @@
-import { useEffect, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { useUnit } from 'effector-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,7 +27,10 @@ type ProductFormData = z.infer<typeof productSchema>;
 
 type ProductFormProps = {
   initialValues?: Omit<Product, 'id'>;
-  onSubmit: (data: Omit<Product, 'id'>) => void;
+  onSubmit: (payload: {
+    product: Omit<Product, 'id' | 'imageUrl'>;
+    imageFile?: File | null;
+  }) => void;
   submitButtonText: string;
   isLoading: boolean;
 };
@@ -68,13 +71,16 @@ export const ProductForm: FC<ProductFormProps> = ({
 
   const submit = (data: ProductFormData) => {
     onSubmit({
-      ...data,
-      carbs: String(data.carbs),
-      fat: String(data.fat),
-      fiber: String(data.fiber),
-      kcal: String(data.kcal),
-      protein: String(data.protein),
-      unit: '100g',
+      product: {
+        ...data,
+        carbs: String(data.carbs),
+        fat: String(data.fat),
+        fiber: String(data.fiber),
+        kcal: String(data.kcal),
+        protein: String(data.protein),
+        unit: '100g',
+      },
+      imageFile: selectedFile,
     });
   };
 
@@ -83,6 +89,15 @@ export const ProductForm: FC<ProductFormProps> = ({
       return toDecimals(parseFloat(value.replace(',', '.')), 2);
     }
     return toDecimals(value, 2);
+  };
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
   };
 
   return (
@@ -124,6 +139,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
       <Input
         label="Б"
+        postfix="г"
         type="text"
         inputMode="decimal"
         error={errors.protein?.message}
@@ -134,6 +150,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
       <Input
         label="Ж"
+        postfix="г"
         type="text"
         inputMode="decimal"
         error={errors.fat?.message}
@@ -144,6 +161,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
       <Input
         label="У"
+        postfix="г"
         type="text"
         inputMode="decimal"
         error={errors.carbs?.message}
@@ -154,6 +172,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
       <Input
         label="Клетчатка"
+        postfix="г"
         type="text"
         inputMode="decimal"
         error={errors.fiber?.message}
@@ -175,6 +194,10 @@ export const ProductForm: FC<ProductFormProps> = ({
           </option>
         ))}
       </Select>
+
+      <div className={styles['control--full-width']}>
+        <Input type="file" onChange={handleFileChange} />
+      </div>
 
       <div className={styles['submit-button']}>
         <Button type="submit" loading={isLoading}>

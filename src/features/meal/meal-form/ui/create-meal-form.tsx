@@ -12,8 +12,13 @@ export const CreateMealForm: FC<CreateMealFormProps> = ({
   onSelectRecipes,
   onSuccess,
 }) => {
-  const handleSubmit: MealFormProps['onSubmit'] = ({ name, products = [], recipes = [] }) => {
-    createMealFx({ name, products, recipes }).then(() => {
+  const handleSubmit: MealFormProps['onSubmit'] = ({
+    name,
+    products = [],
+    recipes = [],
+    datetime,
+  }) => {
+    createMealFx({ name, products, recipes, datetime }).then(() => {
       toast.success('Прием пищи успешно создан');
       onSuccess?.();
     });

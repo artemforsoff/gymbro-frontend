@@ -11,7 +11,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: 'modern',
-        additionalData: `@import "@/shared/styles/theme";`,
+        additionalData: `@use "@/shared/styles/theme" as *;`,
       },
     },
   },
@@ -39,7 +39,7 @@ export default defineConfig({
   server: {
     // Exposes your dev server and makes it accessible for the devices in the same network.
     host: true,
-    allowedHosts: ['.ngrok-free.app'],
+    allowedHosts: ['.loca.lt'],
     port: 3000,
     proxy: {
       '/api': {

@@ -6,6 +6,7 @@ import {
   type Goal,
   GOALS,
 } from '../constants/user-parameter';
+import { type Nutrients } from '../types/entities';
 
 const activityFactorMap: Record<ActivityLevel, number> = {
   [ACTIVITY_LEVELS.low]: 1.2,
@@ -46,7 +47,7 @@ export const calcDailyNutrition = (params: {
   sex: Gender;
   weight: number;
   age: number;
-}) => {
+}): Nutrients => {
   const { activityLevel, goal, height, sex, weight, age } = params;
 
   // 1. BMR (Basal Metabolic Rate)
@@ -56,10 +57,10 @@ export const calcDailyNutrition = (params: {
 
   // 2. Apply activity factor
   const activityFactor = activityFactorMap[activityLevel];
-  let calories = BMR * activityFactor;
+  let kcal = BMR * activityFactor;
 
   // 3. Adjust for goal
-  calories += goalAdjustment[goal];
+  kcal += goalAdjustment[goal];
 
   // 4. macronutrient breakdown
   const protein = weight * PROTEIN_PER_KG;
@@ -68,13 +69,13 @@ export const calcDailyNutrition = (params: {
   const fats = weight * FAT_PER_KG;
   const fatKcal = fats * KCAL_PER_GRAM_FAT;
 
-  const remainingKcal = calories - (proteinKcal + fatKcal);
+  const remainingKcal = kcal - (proteinKcal + fatKcal);
   const carbs = remainingKcal / KCAL_PER_GRAM_CARBS;
 
   return {
-    calories: Math.round(calories),
+    kcal: Math.round(kcal),
     protein: Math.round(protein),
-    fats: Math.round(fats),
+    fat: Math.round(fats),
     carbs: Math.round(carbs),
   };
 };

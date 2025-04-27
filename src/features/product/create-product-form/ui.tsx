@@ -11,8 +11,14 @@ type CreateProductFormProps = {
 export const CreateProductForm: FC<CreateProductFormProps> = ({ onSuccess }) => {
   const isLoading = useUnit(createProductFx.pending);
 
-  const createProduct: ComponentProps<typeof ProductForm>['onSubmit'] = (data) => {
-    createProductFx(data)
+  const createProduct: ComponentProps<typeof ProductForm>['onSubmit'] = ({
+    product,
+    imageFile,
+  }) => {
+    createProductFx({
+      product,
+      file: imageFile,
+    })
       .then(() => {
         onSuccess();
         toast.success('Продукт успешно добавлен');

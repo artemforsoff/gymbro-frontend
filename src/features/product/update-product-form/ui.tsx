@@ -1,9 +1,9 @@
 import { type ComponentProps, type FC } from 'react';
 import { ProductForm } from '@/entities/product';
-import { type Product } from '@/entities/product/model/types';
 import { updateProductFx } from './model';
 import { useUnit } from 'effector-react';
 import { toast } from 'react-toastify';
+import { type Product } from '@/shared/types/entities';
 
 type UpdateProductFormProps = {
   onSuccess: () => void;
@@ -13,10 +13,13 @@ type UpdateProductFormProps = {
 export const UpdateProductForm: FC<UpdateProductFormProps> = ({ onSuccess, product }) => {
   const isLoading = useUnit(updateProductFx.pending);
 
-  const updateProduct: ComponentProps<typeof ProductForm>['onSubmit'] = (data) => {
+  const updateProduct: ComponentProps<typeof ProductForm>['onSubmit'] = (payload) => {
     updateProductFx({
-      ...data,
-      id: product.id,
+      product: {
+        ...payload.product,
+        id: product.id,
+      },
+      file: payload.imageFile,
     })
       .then(() => {
         toast.success('Продукт успешно обновлен');

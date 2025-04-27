@@ -3,7 +3,7 @@ import { EllipsisIcon } from 'lucide-react';
 import { DropdownMenu, IconButton, Image } from '@/shared/ui/kit';
 import styles from './styles.module.scss';
 import { useConfirm } from '@/shared/ui/confirm';
-import { calcRecipeNutrition } from '@/shared/lib';
+import { calcProductsNutrition } from '@/shared/lib';
 import { type Recipe } from '@/shared/types/entities';
 import clsx from 'clsx';
 
@@ -12,12 +12,19 @@ type RecipeCardProps = {
   onDelete?: (recipe: Recipe) => void;
   onChange?: (recipe: Recipe) => void;
   selectable?: boolean;
+  portions?: number | string;
 };
 
-export const RecipeCard: FC<RecipeCardProps> = ({ recipe, onChange, onDelete, selectable }) => {
-  const { name, description } = recipe;
+export const RecipeCard: FC<RecipeCardProps> = ({
+  recipe,
+  onChange,
+  onDelete,
+  selectable,
+  portions = 1,
+}) => {
+  const { name } = recipe;
   const isShowDropdown = Boolean(onChange || onDelete);
-  const { kcal, carbs, fat, fiber, protein } = calcRecipeNutrition(recipe);
+  const { kcal, carbs, fat, fiber, protein } = calcProductsNutrition(recipe.products);
 
   const { confirm } = useConfirm();
 
@@ -38,10 +45,12 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe, onChange, onDelete, se
       />
 
       <div className={styles.info}>
-        <h3 className={styles.name}>{name}</h3>
+        <h3 className={styles.name}>
+          {name} {portions !== 1 && <span>(x{portions})</span>}
+        </h3>
         <p className={styles.description}>
-          на 100 г: <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong> белков;{' '}
-          <strong>{fat} г </strong> жиров; <strong>{carbs} г</strong> углеводов;{' '}
+          на {portions} порцию(и): <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong>{' '}
+          белков; <strong>{fat} г </strong> жиров; <strong>{carbs} г</strong> углеводов;{' '}
           <strong>{fiber} г</strong> клетчатки
         </p>
       </div>
