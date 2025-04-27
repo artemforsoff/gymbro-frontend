@@ -19,6 +19,12 @@ const signInViaTelegramFx = createEffect(() => {
     .json<boolean>();
 });
 
+signInViaTelegramFx.watch(() => {
+  const initData = retrieveRawInitData();
+
+  console.log('initData', initData);
+});
+
 sample({
   clock: getMeFx.fail,
   target: signInViaTelegramFx,
