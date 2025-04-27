@@ -3,6 +3,7 @@ import {
   // mountBackButton,
   // restoreInitData,
   init as initSDK,
+  backButton,
   // mountMiniApp,
   // bindThemeParamsCssVars,
   // mountViewport,
@@ -63,7 +64,9 @@ export async function init(options: {
   // }
 
   // Mount all components used in the project.
+  backButton.mount();
   // mountBackButton.ifAvailable();
+  // mountBackButton.
   // restoreInitData();
   // await Promise.all([
   //   mountMiniApp.isAvailable() &&
