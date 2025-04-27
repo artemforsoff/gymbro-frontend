@@ -28,13 +28,13 @@ export async function init(options: {
   setDebug(options.debug);
   initSDK();
 
-  // Add Eruda if needed.
-  // options.eruda &&
-  //   void import('eruda').then(({ default: eruda }) => {
-  //     eruda.init();
-  //     eruda.show();
-  //     eruda.position({ x: 25, y: 25 });
-  //   });
+  // add Eruda if needed
+  options.eruda &&
+    void import('eruda').then(({ default: eruda }) => {
+      eruda.init();
+      eruda.show();
+      eruda.position({ x: 25, y: 25 });
+    });
 
   // Telegram for macOS has a ton of bugs, including cases, when the client doesn't
   // even response to the "web_app_request_theme" method. It also generates an incorrect
