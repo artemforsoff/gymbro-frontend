@@ -8,17 +8,39 @@ const defaultOptions: KyOptions = {
 export const api = ky.extend({
   ...defaultOptions,
   hooks: {
+    beforeRequest: [
+      (request) => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+          request.headers.set('Authorization', `Bearer ${accessToken}`);
+        }
+      },
+    ],
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          const { ok } = await ky.post('auth/refresh', defaultOptions);
+          const refreshToken = localStorage.getItem('refreshToken');
 
-          if (ok) {
-            return ky(request, {
-              ...defaultOptions,
-              ...options,
-            });
+          if (!refreshToken) {
+            throw new Error('No refresh token available');
           }
+
+          const tokens = await ky
+            .post('auth/refresh', {
+              ...defaultOptions,
+              json: { refreshToken },
+            })
+            .json<{ accessToken: string; refreshToken: string }>();
+
+          localStorage.setItem('accessToken', tokens.accessToken);
+          localStorage.setItem('refreshToken', tokens.refreshToken);
+
+          request.headers.set('Authorization', `Bearer ${tokens.accessToken}`);
+
+          return ky(request, {
+            ...defaultOptions,
+            ...options,
+          });
         }
 
         return response;

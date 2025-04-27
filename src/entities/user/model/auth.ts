@@ -3,26 +3,25 @@ import { api } from '@/shared/lib';
 import { createEffect, sample } from 'effector';
 import { getMeFx } from './user';
 
-const signInViaTelegramFx = createEffect(() => {
+const signInViaTelegramFx = createEffect(async () => {
   const initData = retrieveRawInitData();
 
   if (!initData) {
     throw new Error('initData not available');
   }
 
-  return api
+  const { accessToken, refreshToken } = await api
     .post('auth/tg', {
       json: {
         initData,
       },
     })
-    .json<boolean>();
-});
+    .json<{ accessToken: string; refreshToken: string }>();
 
-signInViaTelegramFx.watch(() => {
-  const initData = retrieveRawInitData();
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
 
-  console.log('initData', initData);
+  return { accessToken, refreshToken };
 });
 
 sample({

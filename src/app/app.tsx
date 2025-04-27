@@ -29,10 +29,6 @@ export function App() {
   const lp = useMemo(() => retrieveLaunchParams(), []);
 
   useEffect(() => {
-    console.log(window);
-  }, []);
-
-  useEffect(() => {
     const {
       tgWebAppThemeParams: {
         accent_text_color: accentTextColor,
