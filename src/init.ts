@@ -11,7 +11,6 @@ import {
   miniApp,
   bindThemeParamsCssVars,
   viewport,
-  bindViewportCssVars,
 } from '@telegram-apps/sdk-react';
 
 /**
@@ -71,7 +70,8 @@ export async function init(options: {
   }
 
   if (viewport.mount.isAvailable()) {
-    viewport.mount();
-    bindViewportCssVars();
+    viewport.mountPromise()?.then(() => {
+      viewport.bindCssVars();
+    });
   }
 }
