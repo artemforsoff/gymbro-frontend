@@ -22,6 +22,7 @@ export async function init(options: {
   eruda: boolean;
   mockForMacOS: boolean;
 }): Promise<void> {
+  console.log({ options });
   // Set @telegram-apps/sdk-react debug mode and initialize it.
   // setDebug(options.debug);
   initSDK();
