@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { mealSchema, type MealSchema } from '../lib/validation-schema';
 import { toDecimals } from '@/shared/lib';
-import { DateTime } from 'luxon';
 
 export type MealFormProps = {
   onSelectProducts: () => Promise<Product[]>;

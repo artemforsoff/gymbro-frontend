@@ -4,7 +4,7 @@ import { type PropsWithChildren, ReactNode, useEffect } from 'react';
 import { PageProps, Route } from '@/pages/types';
 import { Dumbbell, LayoutDashboard, Utensils } from 'lucide-react';
 import styles from './styles.module.scss';
-import { DatePicker, Input, Link } from '@/shared/ui/kit';
+import { DatePicker, Link } from '@/shared/ui/kit';
 import { useUnit } from 'effector-react';
 import { userModel } from '@/entities/user/model';
 import { DateTime } from 'luxon';
