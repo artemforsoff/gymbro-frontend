@@ -7,10 +7,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 html,
 body {
   height: 100%;
@@ -25,6 +21,7 @@ body {
 
 body {
   background-color: var(--gb-bg-color);
+  overscroll-behavior-y: contain;
 }
 
 #root {

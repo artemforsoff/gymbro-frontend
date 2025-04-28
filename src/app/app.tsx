@@ -15,10 +15,6 @@ import { Loader as AppLoader } from './layout/loader';
 
 Modal.setAppElement('#root');
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 0) window.scrollTo(0, 0);
-});
-
 const AppGate = createGate();
 
 sample({
