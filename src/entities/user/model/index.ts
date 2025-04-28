@@ -1,4 +1,3 @@
-import './auth';
 import { $actualUserParameters, getUserParametersByDateFx } from './user-parameters';
 import { $user, getMeFx } from './user';
 import { $activityDay, activityDayChanged, $targetNutritionInActivityDay } from './daily-nutrition';

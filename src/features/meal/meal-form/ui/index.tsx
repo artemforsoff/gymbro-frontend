@@ -1,9 +1,9 @@
 import { useState, type FC } from 'react';
-import { Button, DropdownMenu, IconButton, Input } from '@/shared/ui/kit';
+import { Button, DatePicker, DropdownMenu, IconButton, Input } from '@/shared/ui/kit';
 import styles from './styles.module.scss';
 import { type Product, type Recipe } from '@/shared/types/entities';
 import { CirclePlusIcon, XIcon } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { mealSchema, type MealSchema } from '../lib/validation-schema';
@@ -24,12 +24,13 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
     getValues,
     formState: { errors, isSubmitted },
     watch,
+    control,
   } = useForm({
     resolver: zodResolver(mealSchema),
     defaultValues: {
       products: [],
       recipes: [],
-      datetime: DateTime.now().toISO(),
+      datetime: new Date(),
     },
   });
   const products = watch('products');
@@ -152,11 +153,22 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
     <form className={styles['meal-form']} onSubmit={handleSubmit(onSubmit)}>
       <Input label="Название" error={errors.name?.message} {...register('name')} />
 
-      <Input
-        label="Время приёма"
-        type="datetime-local"
-        error={errors.datetime?.message}
-        {...register('datetime')}
+      <Controller
+        name="datetime"
+        control={control}
+        render={({ field: { value, onChange } }) => (
+          <DatePicker
+            selected={value}
+            onChange={onChange}
+            showTimeSelect
+            dateFormat="yyyy-MM-dd HH:mm"
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            placeholderText="Выберите дату и время"
+            label="Время приёма"
+            error={errors.datetime?.message}
+          />
+        )}
       />
 
       <figure className={styles.positions}>

@@ -4,8 +4,8 @@ import { Nutrition } from './nutrition';
 import { type Nutrients } from '@/shared/types/entities';
 
 type UserDailyNutritionProps = {
-  currentNutrients: Nutrients;
-  targetNutrients: Nutrients;
+  currentNutrients?: Nutrients;
+  targetNutrients?: Nutrients;
 };
 
 export const UserDailyNutrition: FC<UserDailyNutritionProps> = ({
@@ -15,23 +15,23 @@ export const UserDailyNutrition: FC<UserDailyNutritionProps> = ({
   const nutrients: Array<{ label: string; current: number; target: number }> = [
     {
       label: 'Калории',
-      current: currentNutrients.kcal,
-      target: targetNutrients.kcal,
+      current: currentNutrients?.kcal ?? 0,
+      target: targetNutrients?.kcal ?? 0,
     },
     {
       label: 'Белки',
-      current: currentNutrients.protein,
-      target: targetNutrients.protein,
+      current: currentNutrients?.protein ?? 0,
+      target: targetNutrients?.protein ?? 0,
     },
     {
       label: 'Жиры',
-      current: currentNutrients.fat,
-      target: targetNutrients.fat,
+      current: currentNutrients?.fat ?? 0,
+      target: targetNutrients?.fat ?? 0,
     },
     {
       label: 'Углеводы',
-      current: currentNutrients.carbs,
-      target: targetNutrients.carbs,
+      current: currentNutrients?.carbs ?? 0,
+      target: targetNutrients?.carbs ?? 0,
     },
   ];
 

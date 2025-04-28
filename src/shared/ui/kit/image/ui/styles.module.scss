@@ -10,6 +10,8 @@
   img {
     max-width: 100%;
     display: block;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
   }
 
   &__error {

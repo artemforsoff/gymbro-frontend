@@ -1,10 +1,13 @@
 import { userModel } from '@/entities/user/model';
 import { UserDailyNutrition } from '@/features/user';
 import { type PageProps } from '@/pages/types';
-import { useUnit } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import { type FC } from 'react';
+import { DashboardPageGate } from '../model';
 
 export const DashboardPage: FC<PageProps> = () => {
+  useGate(DashboardPageGate);
+
   const currentNutrition = useUnit(userModel.stores.$nutritionInActivityDay);
   const targetNutrition = useUnit(userModel.stores.$targetNutritionInActivityDay);
 

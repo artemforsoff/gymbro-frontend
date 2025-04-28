@@ -18,7 +18,7 @@ export const CreateMealForm: FC<CreateMealFormProps> = ({
     recipes = [],
     datetime,
   }) => {
-    createMealFx({ name, products, recipes, datetime }).then(() => {
+    createMealFx({ name, products, recipes, datetime: datetime.toISOString() }).then(() => {
       toast.success('Прием пищи успешно создан');
       onSuccess?.();
     });

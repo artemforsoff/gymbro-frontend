@@ -1,0 +1,67 @@
+.react-datepicker-wrapper {
+  width: 100% !important;
+}
+
+.react-datepicker {
+  border: 1px solid rgba(var(--gb-hint-color--rgb), 0.2);
+  background-color: var(--gb-bg-color);
+  color: var(--gb-text-color) !important;
+  box-shadow: var(--gb-box-shadow);
+
+  &__header {
+    background-color: transparent;
+    border-color: rgba(var(--gb-hint-color--rgb), 0.2);
+  }
+
+  &__triangle {
+    stroke: rgba(var(--gb-hint-color--rgb), 0.2) !important;
+    fill: var(--gb-bg-color) !important;
+    color: var(--gb-bg-color) !important;
+  }
+
+  &__day,
+  &__day-name,
+  &__time-name,
+  &__current-month,
+  &__header,
+  &-year-header,
+  &-time__header {
+    color: var(--gb-text-color) !important;
+  }
+
+  &__day--keyboard-selected,
+  &__month-text--keyboard-selected,
+  &__quarter-text--keyboard-selected,
+  &__year-text--keyboard-selected,
+  &__day--selected {
+    background-color: rgba(var(--gb-accent-color--rgb), 0.5) !important;
+    color: var(--gb-accent-color) !important;
+  }
+
+  &__day,
+  &__month-text,
+  &__quarter-text,
+  &__year-text {
+    &:not([aria-disabled='true']):hover {
+      background-color: rgba(var(--gb-hint-color--rgb), 0.2) !important;
+    }
+  }
+
+  &__time-container {
+    border-color: rgba(var(--gb-hint-color--rgb), 0.2);
+
+    .react-datepicker__time {
+      background-color: var(--gb-bg-color);
+    }
+  }
+
+  .react-datepicker__time-list-item {
+    &--selected {
+      background-color: rgba(var(--gb-accent-color--rgb), 0.5) !important;
+      color: var(--gb-accent-color) !important;
+    }
+    &:hover {
+      background-color: rgba(var(--gb-hint-color--rgb), 0.2) !important;
+    }
+  }
+}

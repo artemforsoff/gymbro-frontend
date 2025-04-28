@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { sample } from 'effector';
-import { createGate, useGate } from 'effector-react';
+import { createGate, useGate, useUnit } from 'effector-react';
 import { Navigate, Route, Routes, HashRouter } from 'react-router-dom';
 import Modal from 'react-modal';
 import { ToastContainer } from 'react-toastify';
@@ -11,6 +11,7 @@ import { PageWrapper } from './layout/page-wrapper';
 import { routes } from '@/pages/routes';
 import { userModel } from '@/entities/user/model/index';
 import { ModalProvider } from '@/shared/ui';
+import { Loader as AppLoader } from './layout/loader';
 
 Modal.setAppElement('#root');
 
@@ -23,6 +24,8 @@ sample({
 
 export function App() {
   useGate(AppGate);
+
+  const isUserLoading = useUnit(userModel.effects.getMeFx.pending);
 
   const isDark = useSignal(isMiniAppDark);
 
@@ -62,6 +65,9 @@ export function App() {
     document.body.dataset.theme = isDark ? 'gb-dark' : 'gb-light';
   }, [lp, isDark]);
 
+  if (isUserLoading) {
+    return <AppLoader />;
+  }
   return (
     <HashRouter>
       <ToastContainer toastClassName="gb-toast" />

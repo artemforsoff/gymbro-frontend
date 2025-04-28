@@ -5,8 +5,9 @@
 
   .add-button {
     position: fixed;
-    bottom: 16px;
+    bottom: 32px;
     right: 16px;
     background-color: rgba(var(--gb-hint-color--rgb), 0.1);
+    z-index: 1;
   }
 }

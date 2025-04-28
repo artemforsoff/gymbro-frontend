@@ -10,3 +10,4 @@ export { CircularProgress } from './circular-progress';
 export { Image } from './image';
 export { CheckBox } from './checkbox';
 export { Table } from './table';
+export { DatePicker } from './datepicker';

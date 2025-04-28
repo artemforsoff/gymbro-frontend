@@ -1,27 +1,23 @@
 import { useEffect, type FC } from 'react';
 import { useUnit } from 'effector-react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userModel } from '@/entities/user/model';
 import { updateProfileFx } from '../model';
 import styles from './styles.module.scss';
 import { DateTime } from 'luxon';
-import { Button, Input } from '@/shared/ui/kit';
+import { Button, DatePicker, Input } from '@/shared/ui/kit';
 import { toast } from 'react-toastify';
 
 const updateProfileSchema = z.object({
   firstName: z.string().min(1, 'Обязательное поле'),
   lastName: z.string().optional(),
-  birthDate: z.string().refine(
-    (val) => {
-      const date = DateTime.fromISO(val, { zone: 'utc' });
-      return date.isValid && date <= DateTime.utc();
-    },
-    {
+  birthDate: z
+    .date({ invalid_type_error: 'Обязательное поле' })
+    .refine((val) => (val ? val <= DateTime.utc().toJSDate() : true), {
       message: 'Дата не может быть в будущем',
-    },
-  ),
+    }),
 });
 
 type ProfileFormData = z.infer<typeof updateProfileSchema>;
@@ -35,6 +31,7 @@ export const UserProfileForm: FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(updateProfileSchema),
   });
@@ -44,13 +41,15 @@ export const UserProfileForm: FC = () => {
       reset({
         firstName: user.firstName ?? '',
         lastName: user.lastName ?? '',
-        birthDate: user.birthDate?.split('T')[0] ?? '',
+        birthDate: user.birthDate ? new Date(user.birthDate) : undefined,
       });
     }
   }, [user]);
 
   const onSubmit = (data: ProfileFormData) => {
-    const birthDateISO = DateTime.fromFormat(data.birthDate, 'yyyy-MM-dd', { zone: 'utc' }).toISO();
+    if (!data.birthDate) return;
+
+    const birthDateISO = data.birthDate?.toISOString();
 
     updateProfileFx({
       ...data,
@@ -71,11 +70,18 @@ export const UserProfileForm: FC = () => {
 
       <Input label="Фамилия" error={errors.lastName?.message} {...register('lastName')} />
 
-      <Input
-        label="Дата рождения"
-        type="date"
-        error={errors.birthDate?.message}
-        {...register('birthDate')}
+      <Controller
+        name="birthDate"
+        control={control}
+        render={({ field: { value, onChange } }) => (
+          <DatePicker
+            selected={value}
+            onChange={onChange}
+            dateFormat="yyyy-MM-dd"
+            label="Дата рождения"
+            error={errors.birthDate?.message}
+          />
+        )}
       />
 
       <Button type="submit" loading={isLoading}>
