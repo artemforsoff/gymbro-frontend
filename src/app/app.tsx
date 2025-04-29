@@ -25,7 +25,7 @@ sample({
 export function App() {
   useGate(AppGate);
 
-  const isUserLoading = useUnit(userModel.effects.getMeFx.pending);
+  const isAuthLoading = useUnit(userModel.stores.$isAuthLoading);
 
   const isDark = useSignal(isMiniAppDark);
 
@@ -65,7 +65,7 @@ export function App() {
     document.body.dataset.theme = isDark ? 'gb-dark' : 'gb-light';
   }, [lp, isDark]);
 
-  if (isUserLoading) {
+  if (isAuthLoading) {
     return <AppLoader />;
   }
   return (
