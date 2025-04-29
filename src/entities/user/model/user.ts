@@ -41,7 +41,6 @@ sample({
   target: authViaTgFx,
 });
 
-export const $isAuthLoading = combine({
-  authViaTgFx,
-  getMeFx,
-}).map(({ authViaTgFx, getMeFx }) => authViaTgFx.pending || getMeFx.pending);
+export const $isAuthLoading = combine([authViaTgFx.pending, getMeFx.pending]).map((arr) =>
+  arr.some(Boolean),
+);
