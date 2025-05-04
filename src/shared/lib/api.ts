@@ -2,7 +2,6 @@ import ky, { type Options as KyOptions } from 'ky';
 
 const defaultOptions: KyOptions = {
   prefixUrl: new URL('/api', import.meta.env.VITE_API_URL).toString(),
-  credentials: 'include',
 };
 
 const clearTokens = () => {

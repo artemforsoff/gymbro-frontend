@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from 'react';
 import { z } from 'zod';
-import { decimalNumberSchema, toDecimals } from '@/shared/lib';
+import { floatNumberSchema, toDecimals } from '@/shared/lib';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './styles.module.scss';
@@ -16,7 +16,7 @@ const recipeSchema = z.object({
     .array(
       z.object({
         productId: z.number({ invalid_type_error: 'Выберите продукт' }),
-        amount: decimalNumberSchema(),
+        amount: floatNumberSchema(),
       }),
     )
     .min(1, 'Добавьте хотя бы один продукт'),

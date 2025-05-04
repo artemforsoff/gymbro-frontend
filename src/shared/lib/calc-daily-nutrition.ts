@@ -47,7 +47,7 @@ export const calcDailyNutrition = (params: {
   sex: Gender;
   weight: number;
   age: number;
-}): Nutrients => {
+}): Pick<Nutrients, 'kcal' | 'protein' | 'fat' | 'carbs'> => {
   const { activityLevel, goal, height, sex, weight, age } = params;
 
   // 1. BMR (Basal Metabolic Rate)

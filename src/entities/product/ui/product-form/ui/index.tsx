@@ -8,18 +8,18 @@ import { PROTEIN_TYPES } from '@/shared/constants/product';
 import { $productCategoryOptions, proteinTypeOptions } from '../shared/options';
 import styles from './styles.module.scss';
 import { Button, Input, Select } from '@/shared/ui/kit';
-import { decimalNumberSchema } from '@/shared/lib/zod';
+import { floatNumberSchema } from '@/shared/lib/zod';
 import { toDecimals } from '@/shared/lib/to-decimals';
 import { type Product } from '@/shared/types/entities';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Название обязательно'),
   categoryId: z.number({ invalid_type_error: 'Выберите категорию' }),
-  kcal: decimalNumberSchema(),
-  protein: decimalNumberSchema(),
-  fat: decimalNumberSchema(),
-  carbs: decimalNumberSchema(),
-  fiber: decimalNumberSchema(),
+  kcal: floatNumberSchema(),
+  protein: floatNumberSchema(),
+  fat: floatNumberSchema(),
+  carbs: floatNumberSchema(),
+  fiber: floatNumberSchema(),
   proteinType: toZodEnum(Object.values(PROTEIN_TYPES)),
 });
 
@@ -50,7 +50,7 @@ export const ProductForm: FC<ProductFormProps> = ({
     setValue,
     watch,
     reset,
-  } = useForm<ProductFormData>({
+  } = useForm({
     resolver: zodResolver(productSchema),
   });
 
@@ -85,6 +85,8 @@ export const ProductForm: FC<ProductFormProps> = ({
   };
 
   const parseDecimalInput = (value: string) => {
+    if (!value) return undefined;
+
     if (typeof value === 'string') {
       return toDecimals(parseFloat(value.replace(',', '.')), 2);
     }

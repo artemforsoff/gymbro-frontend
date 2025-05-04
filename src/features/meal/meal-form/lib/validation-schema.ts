@@ -1,18 +1,18 @@
-import { decimalNumberSchema } from '@/shared/lib';
+import { floatNumberSchema } from '@/shared/lib';
 import { z } from 'zod';
 
 const productInputSchema = z.object({
   productId: z.number(),
-  amount: decimalNumberSchema(),
+  amount: floatNumberSchema(),
 });
 
 const recipeInputSchema = z.object({
   recipeId: z.number(),
-  portions: decimalNumberSchema(),
+  portions: floatNumberSchema(),
   customProducts: z.array(
     z.object({
       productId: z.number(),
-      amount: decimalNumberSchema(),
+      amount: floatNumberSchema(),
     }),
   ),
 });

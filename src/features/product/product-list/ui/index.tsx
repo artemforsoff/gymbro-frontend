@@ -29,10 +29,20 @@ export const ProductList: FC<ProductListProps> = ({
 
   const [debouncedSearchValue] = useDebounceValue(searchValue, 500);
 
-  const [selected, setSelected] = useState<Product[]>([]);
+  const [selected, setSelected] = useState<Record<Product['id'], Product>>({});
 
   const handleSelect = (product: Product, checked: boolean) => {
-    setSelected((prev) => (checked ? [...prev, product] : prev.filter((p) => p.id !== product.id)));
+    setSelected((prev) => {
+      const updated = { ...prev };
+
+      if (checked) {
+        updated[product.id] = product;
+      } else {
+        delete updated[product.id];
+      }
+
+      return updated;
+    });
   };
 
   useEffect(() => {
@@ -86,6 +96,7 @@ export const ProductList: FC<ProductListProps> = ({
           if (selectable) {
             return (
               <CheckBox
+                checked={Boolean(selected[id])}
                 onChange={(e) => {
                   handleSelect(product, e.target.checked);
                 }}
@@ -99,9 +110,14 @@ export const ProductList: FC<ProductListProps> = ({
       </div>
 
       {selectable && (
-        <Button className={styles.button} onClick={() => onSelectProducts?.(selected)}>
-          Выбрать
-        </Button>
+        <footer>
+          <Button
+            className={styles.button}
+            onClick={() => onSelectProducts?.(Object.values(selected))}
+          >
+            Выбрать
+          </Button>
+        </footer>
       )}
     </div>
   );

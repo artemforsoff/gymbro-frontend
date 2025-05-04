@@ -13,9 +13,15 @@ export type MealFormProps = {
   onSelectProducts: () => Promise<Product[]>;
   onSelectRecipes: () => Promise<Recipe[]>;
   onSubmit: (data: MealSchema) => void;
+  isLoading?: boolean;
 };
 
-export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes, onSubmit }) => {
+export const MealForm: FC<MealFormProps> = ({
+  onSelectProducts,
+  onSelectRecipes,
+  onSubmit,
+  isLoading,
+}) => {
   const {
     register,
     handleSubmit,
@@ -303,7 +309,7 @@ export const MealForm: FC<MealFormProps> = ({ onSelectProducts, onSelectRecipes,
         </DropdownMenu>
       </figure>
 
-      <Button type="submit" className={styles['submit-button']}>
+      <Button type="submit" className={styles['submit-button']} loading={isLoading}>
         Сохранить
       </Button>
     </form>

@@ -1,5 +1,5 @@
 import { api, calcMealNutrition } from '@/shared/lib';
-import { Meal } from '@/shared/types/entities';
+import { Meal, Nutrients } from '@/shared/types/entities';
 import { Nullable } from '@/shared/types/utility-types';
 import { createEffect, createStore } from 'effector';
 
@@ -12,22 +12,39 @@ export const getMealsByActivityDayFx = createEffect(({ date }: { date: string })
 $mealsInActivityDay.on(getMealsByActivityDayFx.doneData, (_, meals) => meals);
 
 export const $nutritionInActivityDay = $mealsInActivityDay.map((meals) => {
-  return (meals || []).reduce(
+  return (meals || []).reduce<Nutrients>(
     (total, meal) => {
-      const { kcal, protein, fat, carbs } = calcMealNutrition(meal);
+      const {
+        kcal,
+        protein,
+        fat,
+        carbs,
+        fiber = 0,
+        animalProtein,
+        plantProtein,
+        otherProtein,
+      } = calcMealNutrition(meal);
 
-      return {
-        kcal: total.kcal + kcal,
-        protein: total.protein + protein,
-        fat: total.fat + fat,
-        carbs: total.carbs + carbs,
-      };
+      total.kcal += kcal;
+      total.protein += protein;
+      total.fat += fat;
+      total.carbs += carbs;
+      total.fiber = (total.fiber ?? 0) + fiber;
+      total.animalProtein += animalProtein;
+      total.plantProtein += plantProtein;
+      total.otherProtein += otherProtein;
+
+      return total;
     },
     {
       kcal: 0,
       protein: 0,
       fat: 0,
       carbs: 0,
+      fiber: 0,
+      animalProtein: 0,
+      plantProtein: 0,
+      otherProtein: 0,
     },
   );
 });

@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { MealForm, type MealFormProps } from '.';
 import { createMealFx } from '../model';
 import { toast } from 'react-toastify';
+import { useUnit } from 'effector-react';
 
 type CreateMealFormProps = Pick<MealFormProps, 'onSelectProducts' | 'onSelectRecipes'> & {
   onSuccess?: () => void;
@@ -12,6 +13,8 @@ export const CreateMealForm: FC<CreateMealFormProps> = ({
   onSelectRecipes,
   onSuccess,
 }) => {
+  const isLoading = useUnit(createMealFx.pending);
+
   const handleSubmit: MealFormProps['onSubmit'] = ({
     name,
     products = [],
@@ -26,6 +29,7 @@ export const CreateMealForm: FC<CreateMealFormProps> = ({
 
   return (
     <MealForm
+      isLoading={isLoading}
       onSelectProducts={onSelectProducts}
       onSelectRecipes={onSelectRecipes}
       onSubmit={handleSubmit}

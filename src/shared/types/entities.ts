@@ -8,6 +8,9 @@ export type Nutrients = {
   fat: number;
   carbs: number;
   fiber?: number;
+  animalProtein: number;
+  plantProtein: number;
+  otherProtein: number;
 };
 
 export type User = {

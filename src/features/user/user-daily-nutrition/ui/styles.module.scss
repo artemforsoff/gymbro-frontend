@@ -25,6 +25,7 @@
   &__progress {
     position: relative;
     display: flex;
+    margin: 0;
 
     span {
       position: absolute;
@@ -37,13 +38,39 @@
     }
   }
 
-  &__target {
-    align-self: end;
+  &__meta {
     display: flex;
     flex-direction: column;
+    align-items: end;
+    justify-content: end;
+    height: 100%;
+    gap: 4px;
+  }
+
+  &__total {
     font-size: 20px;
     font-weight: 500;
     color: var(--gb-hint-color);
-    text-align: right;
+  }
+}
+
+.protein-types {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .protein-type {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    font-weight: 500;
+
+    &--animal {
+      color: #e74c3c;
+    }
+
+    &--plant {
+      color: #2ecc71;
+    }
   }
 }

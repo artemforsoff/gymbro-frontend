@@ -10,13 +10,13 @@ import { ACTIVITY_LEVELS, GENDERS, GOALS } from '@/shared/constants/user-paramet
 import { setUserParametersFx } from '../model';
 import styles from './styles.module.scss';
 import { Button, Input, Select } from '@/shared/ui/kit';
-import { decimalNumberSchema } from '@/shared/lib/zod';
+import { floatNumberSchema } from '@/shared/lib/zod';
 import { toDecimals } from '@/shared/lib/to-decimals';
 import { toast } from 'react-toastify';
 
 const userParamsSchema = z.object({
-  weight: decimalNumberSchema(),
-  height: decimalNumberSchema(),
+  weight: floatNumberSchema(),
+  height: floatNumberSchema(),
   activityLevel: toZodEnum(Object.values(activityLevelOptions).map(({ value }) => value)),
   goal: toZodEnum(Object.values(goalOptions).map(({ value }) => value)),
   sex: toZodEnum(Object.values(genderOptions).map(({ value }) => value)),

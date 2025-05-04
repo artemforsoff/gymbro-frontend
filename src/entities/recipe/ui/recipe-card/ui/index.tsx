@@ -39,18 +39,15 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     <article
       className={clsx(styles['recipe-card'], { [styles['recipe-card--selectable']]: selectable })}
     >
-      <Image
-        className={styles.image}
-        src="https://images.immediate.co.uk/production/volatile/sites/30/2022/08/Fish-Tacos-1337495.jpg?quality=90&resize=556,505"
-      />
+      <Image className={styles.image} src="" />
 
       <div className={styles.info}>
         <h3 className={styles.name}>
           {name} {portions !== 1 && <span>(x{portions})</span>}
         </h3>
         <p className={styles.description}>
-          на {portions} порцию(и): <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong>{' '}
-          белков; <strong>{fat} г </strong> жиров; <strong>{carbs} г</strong> углеводов;{' '}
+          <strong>{kcal} г </strong> ккал; <strong>{protein} г</strong> белков;{' '}
+          <strong>{fat} г </strong> жиров; <strong>{carbs} г</strong> углеводов;{' '}
           <strong>{fiber} г</strong> клетчатки
         </p>
       </div>

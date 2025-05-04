@@ -1,4 +1,4 @@
-import { combine, createEffect, createStore, sample } from 'effector';
+import { createEffect, createStore, sample } from 'effector';
 import { api } from '@/shared/lib';
 import { type Nullable } from '@/shared/types/utility-types';
 import { type User } from '@/shared/types/entities';
@@ -41,6 +41,6 @@ sample({
   target: authViaTgFx,
 });
 
-export const $isAuthLoading = combine([authViaTgFx.pending, getMeFx.pending]).map((arr) =>
-  arr.some(Boolean),
-);
+export const $isAuthLoading = createStore(true);
+
+$isAuthLoading.on(getMeFx.done, () => false);
