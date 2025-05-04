@@ -20,10 +20,12 @@
       }
     }
 
-    color: var(--gb-accent-color);
-    transform-origin: center;
-    animation: spin 1s linear infinite;
-    width: 48px;
-    height: 48px;
+    & {
+      color: var(--gb-accent-color);
+      transform-origin: center;
+      animation: spin 1s linear infinite;
+      width: 48px;
+      height: 48px;
+    }
   }
 }
