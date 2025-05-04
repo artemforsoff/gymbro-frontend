@@ -6,7 +6,7 @@ import { clsx } from 'clsx';
 
 type ProteinTypesProps = Pick<Nutrients, 'protein' | 'animalProtein' | 'plantProtein'>;
 
-export const ProteinTypes: FC<ProteinTypesProps> = ({ animalProtein, plantProtein, protein }) => {
+export const ProteinTypes: FC<ProteinTypesProps> = ({ animalProtein, plantProtein }) => {
   const iconWidth = 24;
 
   return (
